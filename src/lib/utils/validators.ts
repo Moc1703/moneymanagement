@@ -58,3 +58,14 @@ export const signInSchema = z.object({
 });
 
 export type SignInInput = z.infer<typeof signInSchema>;
+
+export const signUpSchema = z.object({
+  email: z.string().email("Email tidak valid"),
+  password: z.string().min(6, "Password minimal 6 karakter"),
+  confirmPassword: z.string().min(6, "Password minimal 6 karakter"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Password tidak sama",
+  path: ["confirmPassword"],
+});
+
+export type SignUpInput = z.infer<typeof signUpSchema>;

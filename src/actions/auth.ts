@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { signInSchema } from "@/lib/utils/validators";
+import { signInSchema, signUpSchema } from "@/lib/utils/validators";
 
 export type AuthActionResult = { error?: string };
 
@@ -22,6 +22,31 @@ export async function signIn(formData: FormData): Promise<AuthActionResult> {
 
   if (error) {
     return { error: "Email atau password salah" };
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/dashboard");
+}
+
+export async function signUp(formData: FormData): Promise<AuthActionResult> {
+  const parsed = signUpSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
+  });
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Data tidak valid" };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signUp({
+    email: parsed.data.email,
+    password: parsed.data.password,
+  });
+
+  if (error) {
+    return { error: error.message };
   }
 
   revalidatePath("/", "layout");

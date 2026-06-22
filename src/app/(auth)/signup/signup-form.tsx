@@ -1,28 +1,22 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useActionState } from "react";
 import Link from "next/link";
-import { signIn } from "@/actions/auth";
+import { signUp, type AuthActionResult } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export function LoginForm() {
-  const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
+const initialState: AuthActionResult = {};
 
-  function onSubmit(formData: FormData) {
-    setError(null);
-    startTransition(async () => {
-      const result = await signIn(formData);
-      if (result?.error) {
-        setError(result.error);
-      }
-    });
-  }
+export function SignupForm() {
+  const [state, formAction, isPending] = useActionState(
+    async (_prev: AuthActionResult, formData: FormData) => signUp(formData),
+    initialState
+  );
 
   return (
-    <form action={onSubmit} className="space-y-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+    <form action={formAction} className="space-y-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
         <Input
@@ -44,21 +38,33 @@ export function LoginForm() {
           placeholder="••••••••"
           required
           minLength={6}
-          autoComplete="current-password"
+          autoComplete="new-password"
         />
       </div>
-      {error && (
+      <div className="space-y-2">
+        <Label htmlFor="confirmPassword">Konfirmasi Password</Label>
+        <Input
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          placeholder="••••••••"
+          required
+          minLength={6}
+          autoComplete="new-password"
+        />
+      </div>
+      {state.error && (
         <div className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg border border-red-200">
-          {error}
+          {state.error}
         </div>
       )}
       <Button type="submit" disabled={isPending} className="w-full" size="lg">
-        {isPending ? "Memproses..." : "Masuk"}
+        {isPending ? "Membuat akun..." : "Daftar"}
       </Button>
       <p className="text-center text-sm text-slate-600">
-        Belum punya akun?{" "}
-        <Link href="/signup" className="font-medium text-slate-900 underline-offset-4 hover:underline">
-          Daftar
+        Sudah punya akun?{" "}
+        <Link href="/login" className="font-medium text-slate-900 underline-offset-4 hover:underline">
+          Masuk
         </Link>
       </p>
     </form>
