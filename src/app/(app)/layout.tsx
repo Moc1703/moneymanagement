@@ -3,6 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { SideNav } from "@/components/layout/side-nav";
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
+import { PrivacyConsent } from "@/components/legal/privacy-consent";
+import { InstallPrompt } from "@/components/pwa/install-prompt";
 import { getProfile } from "@/actions/profile";
 import { getAccounts } from "@/actions/accounts";
 import { ensureRecurringMaterialized } from "@/actions/recurring";
@@ -45,6 +47,8 @@ export default async function AppLayout({
       </main>
       <BottomNav />
       {needsOnboarding && accounts.length > 0 && <OnboardingWizard accounts={accounts} />}
+      {!needsOnboarding && profile && !profile.privacy_accepted_at && <PrivacyConsent />}
+      <InstallPrompt />
     </div>
   );
 }

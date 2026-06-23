@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { TopBar } from "@/components/layout/top-bar";
-import { ChevronRight, Wallet, Tag, FolderKanban, Target, HandCoins, Repeat, PiggyBank, Sparkles, Scale, LogOut } from "lucide-react";
+import { ChevronRight, Wallet, Tag, FolderKanban, Target, HandCoins, Repeat, PiggyBank, Sparkles, Scale, User, LogOut } from "lucide-react";
 import { signOut } from "@/actions/auth";
 
 type Item = {
@@ -27,6 +27,7 @@ const config: Item[] = [
   { href: "/settings/accounts", label: "Rekening", description: "Atur rekening, saldo awal, warna", icon: Wallet, tint: "bg-blue-500/15 text-blue-600 dark:text-blue-300" },
   { href: "/settings/categories", label: "Kategori", description: "Kategori pemasukan & pengeluaran", icon: Tag, tint: "bg-purple-500/15 text-purple-600 dark:text-purple-300" },
   { href: "/settings/projects", label: "Project", description: "Track uang per project usaha", icon: FolderKanban, tint: "bg-cyan-500/15 text-cyan-600 dark:text-cyan-300" },
+  { href: "/settings/account", label: "Akun & Privasi", description: "Mode, persetujuan privasi, hapus akun", icon: User, tint: "bg-slate-500/15 text-slate-600 dark:text-slate-300" },
 ];
 
 function Section({ title, items }: { title: string; items: Item[] }) {

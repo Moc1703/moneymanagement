@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { RegisterSW } from "@/components/pwa/register-sw";
 import { getTheme } from "@/actions/theme";
 import "./globals.css";
 
@@ -17,6 +18,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Money Management",
   description: "Aplikasi kas keluarga & usaha",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Money Mgmt",
+  },
 };
 
 export const viewport: Viewport = {
@@ -51,6 +57,7 @@ export default async function RootLayout({
           />
         )}
         {children}
+        <RegisterSW />
         <Toaster richColors position="top-center" />
       </body>
     </html>

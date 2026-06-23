@@ -14,10 +14,14 @@ export type AccountType = "personal" | "business";
 export type CategoryType = "income" | "expense" | "both";
 export type TransactionType = "income" | "expense";
 
+export type ProfileMode = "family" | "business";
+
 export interface Profile {
   id: string;
   display_name: string;
   onboarding_done: boolean;
+  mode: ProfileMode;
+  privacy_accepted_at: string | null;
   created_at: string;
   updated_at: string;
 }

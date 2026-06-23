@@ -56,3 +56,36 @@ export async function completeOnboarding(): Promise<ActionResult> {
   revalidatePath("/", "layout");
   return {};
 }
+
+export async function setProfileMode(mode: "family" | "business"): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Tidak terautentikasi" };
+  const { error } = await supabase
+    .from("profiles")
+    .update({ mode } as never)
+    .eq("id", user.id);
+  if (error) return { error: error.message };
+  revalidatePath("/", "layout");
+  return {};
+}
+
+export async function acceptPrivacyPolicy(): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Tidak terautentikasi" };
+  const { error } = await supabase
+    .from("profiles")
+    .update({ privacy_accepted_at: new Date().toISOString() } as never)
+    .eq("id", user.id);
+  if (error) return { error: error.message };
+  revalidatePath("/", "layout");
+  return {};
+}
+
+export async function deleteMyAccount(): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("delete_my_account");
+  if (error) return { error: error.message };
+  return {};
+}
