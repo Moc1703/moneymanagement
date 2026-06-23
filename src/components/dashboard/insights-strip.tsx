@@ -1,6 +1,6 @@
 import { formatIDR, formatIDRCompact, formatDateShort } from "@/lib/utils/format";
 import type { SmartInsights } from "@/lib/utils/chart-data";
-import { PiggyBank, Flame, CalendarClock, Crown, TrendingUp, TrendingDown, AlertTriangle, Zap } from "lucide-react";
+import { PiggyBank, Flame, CalendarClock, Crown, TrendingUp, TrendingDown, AlertTriangle, Zap, Gift } from "lucide-react";
 
 function Chip({
   tone,
@@ -38,7 +38,7 @@ function Chip({
 }
 
 export function InsightsStrip({ insights }: { insights: SmartInsights }) {
-  const { savingsRate, expenseDeltaPct, projectedMonthExpense, topCategory, biggestDay, daysLeftInMonth, anomaly, categorySurge } = insights;
+  const { savingsRate, expenseDeltaPct, projectedMonthExpense, topCategory, biggestDay, daysLeftInMonth, anomaly, categorySurge, thrBonus } = insights;
 
   const savingsTone = savingsRate >= 20 ? "emerald" : savingsRate >= 0 ? "amber" : "rose";
   const deltaTone = expenseDeltaPct === null
@@ -121,6 +121,15 @@ export function InsightsStrip({ insights }: { insights: SmartInsights }) {
               label={`${categorySurge.icon} ${categorySurge.name} lonjak`}
               value={`+${categorySurge.deltaPct.toFixed(0)}%`}
               sub={`${formatIDRCompact(categorySurge.currentWeek)} (vs ${formatIDRCompact(categorySurge.prevWeek)})`}
+            />
+          )}
+          {thrBonus && (
+            <Chip
+              tone="emerald"
+              icon={<Gift className="w-4 h-4" />}
+              label={`THR/Bonus ${thrBonus.monthLabel}`}
+              value={formatIDR(thrBonus.amount)}
+              sub={`${thrBonus.ratio.toFixed(1)}× rata-rata · split ke Goal Lebaran?`}
             />
           )}
         </div>

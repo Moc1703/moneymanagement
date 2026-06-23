@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Plus, BarChart3, ArrowLeftRight, Settings, LogOut, Sparkles, Target, HandCoins } from "lucide-react";
+import { Home, Plus, BarChart3, ArrowLeftRight, Settings, LogOut, Sparkles, Target, HandCoins, Scale } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "@/actions/auth";
 
@@ -13,6 +13,7 @@ const navItems = [
   { href: "/transfers", label: "Transfer", icon: ArrowLeftRight },
   { href: "/goals", label: "Tabungan Tujuan", icon: Target },
   { href: "/debts", label: "Hutang & Piutang", icon: HandCoins },
+  { href: "/networth", label: "Net Worth", icon: Scale },
   { href: "/settings", label: "Pengaturan", icon: Settings },
 ];
 

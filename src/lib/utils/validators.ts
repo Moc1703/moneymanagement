@@ -129,3 +129,26 @@ export const debtPaymentSchema = z.object({
   note: z.string().max(200).optional().or(z.literal("")),
 });
 export type DebtPaymentInput = z.infer<typeof debtPaymentSchema>;
+
+export const assetSchema = z.object({
+  name: z.string().min(1, "Nama wajib diisi").max(80),
+  type: z.enum(["savings", "investment", "gold", "property", "vehicle", "crypto", "other"]),
+  current_value: z.coerce.number().nonnegative("Nilai tidak boleh negatif"),
+  color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Warna tidak valid"),
+  icon: z.string().min(1).max(4),
+  note: z.string().max(200).optional().or(z.literal("")),
+});
+export type AssetInput = z.infer<typeof assetSchema>;
+
+export const liabilitySchema = z.object({
+  name: z.string().min(1, "Nama wajib diisi").max(80),
+  type: z.enum(["credit_card", "mortgage", "loan", "paylater", "other"]),
+  current_balance: z.coerce.number().nonnegative("Saldo tidak boleh negatif"),
+  original_amount: z.coerce.number().optional().nullable(),
+  interest_rate_pct: z.coerce.number().optional().nullable(),
+  end_date: z.string().optional().nullable(),
+  color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Warna tidak valid"),
+  icon: z.string().min(1).max(4),
+  note: z.string().max(200).optional().or(z.literal("")),
+});
+export type LiabilityInput = z.infer<typeof liabilitySchema>;

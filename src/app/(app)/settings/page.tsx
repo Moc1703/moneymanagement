@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { TopBar } from "@/components/layout/top-bar";
-import { ChevronRight, Wallet, Tag, FolderKanban, Target, HandCoins, Repeat, PiggyBank, Sparkles, LogOut } from "lucide-react";
+import { ChevronRight, Wallet, Tag, FolderKanban, Target, HandCoins, Repeat, PiggyBank, Sparkles, Scale, LogOut } from "lucide-react";
 import { signOut } from "@/actions/auth";
 
 type Item = {
@@ -14,6 +14,7 @@ type Item = {
 const features: Item[] = [
   { href: "/goals", label: "Tabungan Tujuan", description: "Goal nabung dengan target tanggal & nominal", icon: Target, tint: "bg-violet-500/15 text-violet-600 dark:text-violet-300" },
   { href: "/debts", label: "Hutang & Piutang", description: "Catat pinjaman ke teman/keluarga", icon: HandCoins, tint: "bg-rose-500/15 text-rose-600 dark:text-rose-300" },
+  { href: "/networth", label: "Net Worth", description: "Aset (investasi, emas, properti) + hutang besar (KPR, paylater)", icon: Scale, tint: "bg-primary/15 text-primary" },
 ];
 
 const automation: Item[] = [

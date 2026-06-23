@@ -134,6 +134,12 @@ export type SmartInsights = {
     prevWeek: number;
     deltaPct: number;
   } | null;
+  thrBonus: {
+    amount: number;
+    monthLabel: string;
+    avgMonthly: number;
+    ratio: number;
+  } | null;
 };
 
 export function buildSmartInsights(
@@ -264,6 +270,51 @@ export function buildSmartInsights(
     }
   }
 
+  // -- THR-aware: detect anomalously large income in Mar-May (Ramadan/Lebaran window)
+  //    Compute avg monthly income over last 6 months (excluding current), flag
+  //    any single income tx in Mar-May > 1.8x that average.
+  let thrBonus: SmartInsights["thrBonus"] = null;
+  {
+    const monthlyIncome = new Map<string, number>();
+    for (const tx of transactions) {
+      if (tx.type !== "income") continue;
+      const ym = tx.date.slice(0, 7);
+      monthlyIncome.set(ym, (monthlyIncome.get(ym) ?? 0) + Number(tx.amount));
+    }
+    // Compute average of last 6 full months (exclude current)
+    const monthlyValues: number[] = [];
+    for (let i = 1; i <= 6; i++) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      monthlyValues.push(monthlyIncome.get(key) ?? 0);
+    }
+    const nonZero = monthlyValues.filter((v) => v > 0);
+    if (nonZero.length >= 2) {
+      const avgMonthly = nonZero.reduce((s, v) => s + v, 0) / nonZero.length;
+      // Look for big income tx within Mar-May (months 2-4) of current year
+      const currentYear = now.getFullYear();
+      const monthsLabels = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+      let bestRatio = 0;
+      for (const tx of transactions) {
+        if (tx.type !== "income") continue;
+        const txDate = parseISO(tx.date);
+        const m = txDate.getMonth();
+        if (txDate.getFullYear() !== currentYear) continue;
+        if (m < 2 || m > 4) continue; // Mar-May only (0-indexed)
+        const ratio = Number(tx.amount) / avgMonthly;
+        if (ratio >= 1.8 && ratio > bestRatio) {
+          bestRatio = ratio;
+          thrBonus = {
+            amount: Number(tx.amount),
+            monthLabel: monthsLabels[m],
+            avgMonthly,
+            ratio,
+          };
+        }
+      }
+    }
+  }
+
   return {
     monthIncome,
     monthExpense,
@@ -275,6 +326,7 @@ export function buildSmartInsights(
     daysLeftInMonth,
     anomaly,
     categorySurge,
+    thrBonus,
   };
 }
 

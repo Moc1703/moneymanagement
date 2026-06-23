@@ -211,6 +211,62 @@ export interface DebtPayment {
   created_at: string;
 }
 
+export type AssetType = "savings" | "investment" | "gold" | "property" | "vehicle" | "crypto" | "other";
+export type LiabilityType = "credit_card" | "mortgage" | "loan" | "paylater" | "other";
+
+export interface Asset {
+  id: string;
+  user_id: string;
+  name: string;
+  type: AssetType;
+  current_value: number;
+  color: string;
+  icon: string;
+  note: string | null;
+  archived_at: string | null;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AssetSnapshot {
+  id: string;
+  user_id: string;
+  asset_id: string;
+  value: number;
+  snapshot_date: string;
+  note: string | null;
+  created_at: string;
+}
+
+export interface Liability {
+  id: string;
+  user_id: string;
+  name: string;
+  type: LiabilityType;
+  current_balance: number;
+  original_amount: number | null;
+  interest_rate_pct: number | null;
+  end_date: string | null;
+  color: string;
+  icon: string;
+  note: string | null;
+  archived_at: string | null;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface LiabilitySnapshot {
+  id: string;
+  user_id: string;
+  liability_id: string;
+  balance: number;
+  snapshot_date: string;
+  note: string | null;
+  created_at: string;
+}
+
 export interface DetectedSubscription {
   id: string;
   user_id: string;
