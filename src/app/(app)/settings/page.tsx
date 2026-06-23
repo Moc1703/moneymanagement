@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { TopBar } from "@/components/layout/top-bar";
-import { ChevronRight, Wallet, Tag, FolderKanban, Target, HandCoins, Repeat, PiggyBank, LogOut } from "lucide-react";
+import { ChevronRight, Wallet, Tag, FolderKanban, Target, HandCoins, Repeat, PiggyBank, Sparkles, LogOut } from "lucide-react";
 import { signOut } from "@/actions/auth";
 
 type Item = {
@@ -19,6 +19,7 @@ const features: Item[] = [
 const automation: Item[] = [
   { href: "/settings/budgets", label: "Kantong", description: "Budget bulanan per kategori, progress otomatis", icon: PiggyBank, tint: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-300" },
   { href: "/settings/recurring", label: "Transaksi Berulang", description: "Gaji, KPR, langganan — auto-input tiap periode", icon: Repeat, tint: "bg-amber-500/15 text-amber-600 dark:text-amber-300" },
+  { href: "/settings/subscriptions", label: "Langganan Terdeteksi", description: "Pola berulang yang otomatis dikenali dari transaksi", icon: Sparkles, tint: "bg-violet-500/15 text-violet-600 dark:text-violet-300" },
 ];
 
 const config: Item[] = [

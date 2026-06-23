@@ -211,6 +211,25 @@ export interface DebtPayment {
   created_at: string;
 }
 
+export interface DetectedSubscription {
+  id: string;
+  user_id: string;
+  pattern_key: string;
+  display_name: string;
+  expected_amount: number;
+  amount_stddev_pct: number;
+  interval_days: number;
+  occurrences: number;
+  confidence: number;
+  first_seen_date: string;
+  last_seen_date: string;
+  next_expected_date: string | null;
+  dismissed_at: string | null;
+  recurring_rule_id: string | null;
+  detected_at: string;
+  updated_at: string;
+}
+
 // Generic row types — keep Insert/Update permissive so actions can pass partials.
 // These match the table shape; the actual Postgres types are stricter.
 export type AccountInsert = Partial<Account> & {

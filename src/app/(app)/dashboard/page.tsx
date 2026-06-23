@@ -8,12 +8,14 @@ import { RecentTransactions } from "@/components/dashboard/recent-transactions";
 import { InsightsStrip } from "@/components/dashboard/insights-strip";
 import { BudgetsOverview } from "@/components/dashboard/budgets-overview";
 import { GoalsOverview } from "@/components/dashboard/goals-overview";
+import { SubscriptionsCard } from "@/components/dashboard/subscriptions-card";
 import { getAccounts } from "@/actions/accounts";
 import { getCategories } from "@/actions/categories";
 import { getProjects } from "@/actions/projects";
 import { getTransactions } from "@/actions/transactions";
 import { getBudgetsForMonth } from "@/actions/budgets";
 import { getGoals } from "@/actions/goals";
+import { getDetectedSubscriptions } from "@/actions/subscriptions";
 import {
   computeAccountBalances,
   computeTotalBalance,
@@ -32,13 +34,14 @@ function greeting() {
 }
 
 export default async function DashboardPage() {
-  const [accounts, categories, projects, transactions, budgets, goals] = await Promise.all([
+  const [accounts, categories, projects, transactions, budgets, goals, subs] = await Promise.all([
     getAccounts(),
     getCategories(),
     getProjects(),
     getTransactions({ limit: 200 }),
     getBudgetsForMonth(),
     getGoals(),
+    getDetectedSubscriptions(),
   ]);
 
   const balances = computeAccountBalances(accounts, transactions);
@@ -81,6 +84,8 @@ export default async function DashboardPage() {
           <BudgetsOverview budgets={budgets} categoryMap={fullCategoryMap} />
           <GoalsOverview goals={goals} />
         </div>
+
+        {subs.length > 0 && <SubscriptionsCard subs={subs} />}
 
         {/* Charts bento row */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">

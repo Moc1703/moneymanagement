@@ -6,6 +6,7 @@ import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
 import { getProfile } from "@/actions/profile";
 import { getAccounts } from "@/actions/accounts";
 import { ensureRecurringMaterialized } from "@/actions/recurring";
+import { refreshSubscriptionDetection } from "@/actions/subscriptions";
 
 export default async function AppLayout({
   children,
@@ -27,9 +28,12 @@ export default async function AppLayout({
   // Idempotent; failures don't block the page.
   if (!needsOnboarding) {
     try {
-      await ensureRecurringMaterialized();
+      await Promise.all([
+        ensureRecurringMaterialized(),
+        refreshSubscriptionDetection(),
+      ]);
     } catch {
-      /* swallow — recurring failure shouldn't break navigation */
+      /* swallow — background work failure shouldn't break navigation */
     }
   }
 

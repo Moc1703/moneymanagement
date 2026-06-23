@@ -125,6 +125,15 @@ export type SmartInsights = {
   topCategory: { name: string; color: string; icon: string; value: number } | null;
   biggestDay: { date: string; total: number } | null;
   daysLeftInMonth: number;
+  anomaly: { date: string; total: number; ratio: number } | null;
+  categorySurge: {
+    name: string;
+    color: string;
+    icon: string;
+    currentWeek: number;
+    prevWeek: number;
+    deltaPct: number;
+  } | null;
 };
 
 export function buildSmartInsights(
@@ -189,6 +198,72 @@ export function buildSmartInsights(
 
   const daysLeftInMonth = Math.max(0, differenceInDays(monthEnd, now));
 
+  // -- Anomaly: last 30 days, find day whose total > 3× median of non-zero days
+  const dayTotals30 = new Map<string, number>();
+  const thirtyDaysAgo = new Date(now);
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  const cutoff = format(thirtyDaysAgo, "yyyy-MM-dd");
+  for (const tx of transactions) {
+    if (tx.type !== "expense") continue;
+    if (tx.date < cutoff) continue;
+    dayTotals30.set(tx.date, (dayTotals30.get(tx.date) ?? 0) + Number(tx.amount));
+  }
+  const sortedDayValues = Array.from(dayTotals30.values()).sort((a, b) => a - b);
+  let anomaly: SmartInsights["anomaly"] = null;
+  if (sortedDayValues.length >= 5) {
+    const med = sortedDayValues[Math.floor(sortedDayValues.length / 2)];
+    if (med > 0) {
+      let topDay: { date: string; total: number } | null = null;
+      for (const [d, total] of dayTotals30) {
+        if (!topDay || total > topDay.total) topDay = { date: d, total };
+      }
+      if (topDay && topDay.total >= 3 * med) {
+        anomaly = { date: topDay.date, total: topDay.total, ratio: topDay.total / med };
+      }
+    }
+  }
+
+  // -- Category surge: current 7d vs previous 7d, expense per category, top % delta
+  const sevenDaysAgo = new Date(now);
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+  const fourteenDaysAgo = new Date(now);
+  fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+  const curStart = format(sevenDaysAgo, "yyyy-MM-dd");
+  const prevStart = format(fourteenDaysAgo, "yyyy-MM-dd");
+
+  const currentByCat = new Map<string, number>();
+  const prevByCat = new Map<string, number>();
+  for (const tx of transactions) {
+    if (tx.type !== "expense") continue;
+    const amt = Number(tx.amount);
+    if (tx.date >= curStart) {
+      currentByCat.set(tx.category_id, (currentByCat.get(tx.category_id) ?? 0) + amt);
+    } else if (tx.date >= prevStart && tx.date < curStart) {
+      prevByCat.set(tx.category_id, (prevByCat.get(tx.category_id) ?? 0) + amt);
+    }
+  }
+  let categorySurge: SmartInsights["categorySurge"] = null;
+  let bestDelta = 0;
+  for (const [id, current] of currentByCat) {
+    const prev = prevByCat.get(id) ?? 0;
+    if (prev === 0) continue; // ignore "new" categories (no comparison baseline)
+    const deltaPct = ((current - prev) / prev) * 100;
+    if (deltaPct >= 50 && current >= 100_000 && deltaPct > bestDelta) {
+      const cat = categoryMap.get(id);
+      if (cat) {
+        bestDelta = deltaPct;
+        categorySurge = {
+          name: cat.name,
+          color: cat.color,
+          icon: cat.icon,
+          currentWeek: current,
+          prevWeek: prev,
+          deltaPct,
+        };
+      }
+    }
+  }
+
   return {
     monthIncome,
     monthExpense,
@@ -198,6 +273,8 @@ export function buildSmartInsights(
     topCategory,
     biggestDay,
     daysLeftInMonth,
+    anomaly,
+    categorySurge,
   };
 }
 

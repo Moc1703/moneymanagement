@@ -1,6 +1,6 @@
 import { formatIDR, formatIDRCompact, formatDateShort } from "@/lib/utils/format";
 import type { SmartInsights } from "@/lib/utils/chart-data";
-import { PiggyBank, Flame, CalendarClock, Crown, TrendingUp, TrendingDown } from "lucide-react";
+import { PiggyBank, Flame, CalendarClock, Crown, TrendingUp, TrendingDown, AlertTriangle, Zap } from "lucide-react";
 
 function Chip({
   tone,
@@ -38,7 +38,7 @@ function Chip({
 }
 
 export function InsightsStrip({ insights }: { insights: SmartInsights }) {
-  const { savingsRate, expenseDeltaPct, projectedMonthExpense, topCategory, biggestDay, daysLeftInMonth } = insights;
+  const { savingsRate, expenseDeltaPct, projectedMonthExpense, topCategory, biggestDay, daysLeftInMonth, anomaly, categorySurge } = insights;
 
   const savingsTone = savingsRate >= 20 ? "emerald" : savingsRate >= 0 ? "amber" : "rose";
   const deltaTone = expenseDeltaPct === null
@@ -103,6 +103,24 @@ export function InsightsStrip({ insights }: { insights: SmartInsights }) {
               label="Hari paling boros"
               value={formatIDRCompact(biggestDay.total)}
               sub={formatDateShort(biggestDay.date)}
+            />
+          )}
+          {anomaly && (
+            <Chip
+              tone="rose"
+              icon={<AlertTriangle className="w-4 h-4" />}
+              label="Anomali pengeluaran"
+              value={formatIDRCompact(anomaly.total)}
+              sub={`${anomaly.ratio.toFixed(1)}× median · ${formatDateShort(anomaly.date)}`}
+            />
+          )}
+          {categorySurge && (
+            <Chip
+              tone="amber"
+              icon={<Zap className="w-4 h-4" />}
+              label={`${categorySurge.icon} ${categorySurge.name} lonjak`}
+              value={`+${categorySurge.deltaPct.toFixed(0)}%`}
+              sub={`${formatIDRCompact(categorySurge.currentWeek)} (vs ${formatIDRCompact(categorySurge.prevWeek)})`}
             />
           )}
         </div>
