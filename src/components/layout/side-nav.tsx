@@ -20,7 +20,7 @@ export function SideNav() {
   return (
     <aside className="hidden md:flex md:flex-col md:w-64 md:fixed md:inset-y-0 md:border-r md:border-sidebar-border md:bg-sidebar">
       <div className="flex items-center gap-2.5 px-5 h-16 border-b border-sidebar-border">
-        <div className="relative flex items-center justify-center w-10 h-10 rounded-xl gradient-brand text-white shadow-glow">
+        <div className="flex items-center justify-center w-10 h-10 rounded-xl gradient-brand text-white shadow-soft">
           <Sparkles className="w-5 h-5" strokeWidth={2.5} />
         </div>
         <div className="leading-tight">
@@ -37,20 +37,14 @@ export function SideNav() {
               key={item.href}
               href={item.href}
               className={cn(
-                "relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all overflow-hidden",
+                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors",
                 isActive
-                  ? "text-primary bg-primary/10 ring-1 ring-primary/15"
+                  ? "text-primary bg-primary/10"
                   : "text-foreground/70 hover:text-foreground hover:bg-sidebar-accent"
               )}
             >
-              {isActive && (
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute -right-4 -top-4 w-16 h-16 rounded-full bg-primary/20 blur-2xl"
-                />
-              )}
-              <Icon className={cn("relative w-4 h-4", isActive && "stroke-[2.5]")} />
-              <span className="relative">{item.label}</span>
+              <Icon className={cn("w-4 h-4", isActive && "stroke-[2.5]")} />
+              <span>{item.label}</span>
             </Link>
           );
         })}

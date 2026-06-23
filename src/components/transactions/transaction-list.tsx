@@ -112,7 +112,7 @@ export function TransactionList({
         ) : (
           <li
             key={tx.id}
-            className="rounded-2xl border border-border bg-card shadow-soft p-3 transition-all hover:-translate-y-0.5 hover:shadow-glow"
+            className="rounded-2xl border border-border bg-card shadow-soft p-3 transition-shadow hover:shadow-soft-lg"
           >
             {item}
           </li>

@@ -16,13 +16,9 @@ export default async function AppLayout({
   }
 
   return (
-    <div className="relative flex min-h-screen bg-background overflow-x-hidden">
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 mesh-bg-fixed opacity-70 -z-10"
-      />
+    <div className="flex min-h-screen bg-background">
       <SideNav />
-      <main className="flex-1 md:pl-64 pb-28 md:pb-0">
+      <main className="flex-1 md:pl-64 pb-24 md:pb-0">
         {children}
       </main>
       <BottomNav />

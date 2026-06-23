@@ -24,7 +24,7 @@ export function LoginForm() {
   return (
     <form
       action={onSubmit}
-      className="glass-strong space-y-4 p-6 rounded-3xl border border-border shadow-soft"
+      className="bg-card space-y-4 p-6 rounded-3xl border border-border shadow-soft"
     >
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
@@ -58,7 +58,7 @@ export function LoginForm() {
       <Button
         type="submit"
         disabled={isPending}
-        className="w-full gradient-brand text-white hover:opacity-90 shadow-glow"
+        className="w-full gradient-brand text-white hover:opacity-90 shadow-soft"
         size="lg"
       >
         {isPending ? "Memproses..." : "Masuk"}

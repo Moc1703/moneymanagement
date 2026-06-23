@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export function TopBar({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
-    <header className="sticky top-0 z-40 glass-nav border-b border-border/60">
+    <header className="sticky top-0 z-40 bg-background border-b border-border">
       <div className="flex items-center justify-between h-14 px-4 md:px-6">
         <div className="min-w-0">
           <h1 className="text-base md:text-lg font-semibold tracking-tight truncate">{title}</h1>

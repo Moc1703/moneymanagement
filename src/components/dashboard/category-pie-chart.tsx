@@ -9,7 +9,7 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: { payl
   if (!active || !payload || payload.length === 0) return null;
   const slice = payload[0].payload;
   return (
-    <div className="rounded-xl border border-border bg-popover/95 backdrop-blur-md px-3 py-2 shadow-soft text-xs">
+    <div className="rounded-xl border border-border bg-popover px-3 py-2 shadow-soft text-xs">
       <div className="flex items-center gap-2 mb-0.5">
         <span className="w-2 h-2 rounded-full" style={{ backgroundColor: slice.color }} />
         <span className="font-medium">{slice.name}</span>

@@ -19,7 +19,7 @@ const EXPENSE_COLOR = "oklch(0.66 0.22 22)";
 function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: { name?: string; value?: number; dataKey?: string; color?: string }[]; label?: string }) {
   if (!active || !payload || payload.length === 0) return null;
   return (
-    <div className="rounded-xl border border-border bg-popover/95 backdrop-blur-md px-3 py-2 shadow-soft text-xs">
+    <div className="rounded-xl border border-border bg-popover px-3 py-2 shadow-soft text-xs">
       <p className="font-medium mb-1.5">{label}</p>
       {payload.map((p) => (
         <div key={p.dataKey} className="flex items-center justify-between gap-4">
