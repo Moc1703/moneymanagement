@@ -4,7 +4,6 @@ import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Trash2 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatIDR, formatDateShort } from "@/lib/utils/format";
 import { deleteTransaction } from "@/actions/transactions";
@@ -22,11 +21,9 @@ export function TransactionList({
 
   if (transactions.length === 0) {
     return (
-      <Card>
-        <CardContent className="p-8 text-center text-slate-500 text-sm">
-          Belum ada transaksi
-        </CardContent>
-      </Card>
+      <div className="rounded-2xl border border-dashed border-border bg-card/60 p-8 text-center text-sm text-muted-foreground">
+        Belum ada transaksi
+      </div>
     );
   }
 
@@ -44,70 +41,83 @@ export function TransactionList({
   }
 
   return (
-    <div className="space-y-2">
+    <ul className={compact ? "divide-y divide-border/70" : "space-y-2"}>
       {transactions.map((tx) => {
         const isIncome = tx.type === "income";
-        return (
-          <Card key={tx.id}>
-            <CardContent className={compact ? "p-3" : "p-4"}>
-              <div className="flex items-center gap-3">
-                <div
-                  className="flex items-center justify-center w-10 h-10 rounded-lg text-lg shrink-0"
-                  style={{ backgroundColor: tx.category ? `${tx.category.color}30` : "#f1f5f9" }}
-                >
-                  {tx.category?.icon ?? "•"}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-sm truncate">
-                    {tx.description || tx.category?.name}
-                  </p>
-                  <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-0.5 flex-wrap">
-                    <span>{tx.account?.name?.replace("Rekening ", "") ?? "-"}</span>
-                    {tx.project && (
-                      <>
-                        <span>·</span>
-                        <span className="flex items-center gap-1">
-                          <span
-                            className="w-1.5 h-1.5 rounded-full"
-                            style={{ backgroundColor: tx.project.color }}
-                          />
-                          {tx.project.name}
-                        </span>
-                      </>
-                    )}
+        const accentColor = tx.category?.color ?? "oklch(0.55 0.22 285)";
+        const item = (
+          <div className="flex items-center gap-3">
+            <div
+              className="relative flex items-center justify-center w-10 h-10 rounded-xl text-lg shrink-0 ring-1 ring-inset"
+              style={{
+                backgroundColor: `${accentColor}1A`,
+                color: accentColor,
+                boxShadow: `inset 0 0 0 1px ${accentColor}26`,
+              }}
+            >
+              {tx.category?.icon ?? "•"}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-medium text-sm truncate">
+                {tx.description || tx.category?.name}
+              </p>
+              <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground mt-0.5 flex-wrap">
+                <span className="truncate">{tx.account?.name?.replace("Rekening ", "") ?? "-"}</span>
+                {tx.project && (
+                  <>
                     <span>·</span>
-                    <span>{formatDateShort(tx.date)}</span>
-                  </div>
-                </div>
-                <div className="text-right shrink-0">
-                  <p
-                    className={`font-semibold text-sm ${
-                      isIncome ? "text-emerald-600" : "text-slate-900"
-                    }`}
-                  >
-                    {isIncome ? "+" : "-"}
-                    {formatIDR(tx.amount)}
-                  </p>
-                </div>
-                {!compact && !tx.transfer_group_id && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() =>
-                      handleDelete(tx.id, tx.description || tx.category?.name || "ini")
-                    }
-                    disabled={isPending}
-                    className="shrink-0 text-slate-400 hover:text-red-600"
-                    aria-label="Hapus"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
+                    <span className="inline-flex items-center gap-1">
+                      <span
+                        className="w-1.5 h-1.5 rounded-full"
+                        style={{ backgroundColor: tx.project.color }}
+                      />
+                      <span className="truncate">{tx.project.name}</span>
+                    </span>
+                  </>
                 )}
+                <span>·</span>
+                <span>{formatDateShort(tx.date)}</span>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+            <div className="text-right shrink-0">
+              <p
+                className={`font-semibold text-sm tabular-nums ${
+                  isIncome ? "text-emerald-600 dark:text-emerald-400" : "text-foreground"
+                }`}
+              >
+                {isIncome ? "+" : "-"}
+                {formatIDR(tx.amount)}
+              </p>
+            </div>
+            {!compact && !tx.transfer_group_id && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() =>
+                  handleDelete(tx.id, tx.description || tx.category?.name || "ini")
+                }
+                disabled={isPending}
+                className="shrink-0 text-muted-foreground hover:text-rose-600"
+                aria-label="Hapus"
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            )}
+          </div>
+        );
+        return compact ? (
+          <li key={tx.id} className="px-2 py-2.5 first:pt-3 last:pb-1">
+            {item}
+          </li>
+        ) : (
+          <li
+            key={tx.id}
+            className="rounded-2xl border border-border bg-card shadow-soft p-3 transition-all hover:-translate-y-0.5 hover:shadow-glow"
+          >
+            {item}
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }

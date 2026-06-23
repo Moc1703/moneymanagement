@@ -1,80 +1,138 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { formatIDRCompact } from "@/lib/utils/format";
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from "recharts";
+import { formatIDR, formatIDRCompact } from "@/lib/utils/format";
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+} from "recharts";
+import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
 type DataPoint = { period: string; label: string; income: number; expense: number };
 
+const INCOME_COLOR = "oklch(0.70 0.16 165)";
+const EXPENSE_COLOR = "oklch(0.66 0.22 22)";
+
+function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: { name?: string; value?: number; dataKey?: string; color?: string }[]; label?: string }) {
+  if (!active || !payload || payload.length === 0) return null;
+  return (
+    <div className="rounded-xl border border-border bg-popover/95 backdrop-blur-md px-3 py-2 shadow-soft text-xs">
+      <p className="font-medium mb-1.5">{label}</p>
+      {payload.map((p) => (
+        <div key={p.dataKey} className="flex items-center justify-between gap-4">
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />
+            <span className="text-muted-foreground">{p.name}</span>
+          </span>
+          <span className="font-semibold tabular-nums">{formatIDR(Number(p.value))}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function CashflowChart({ data }: { data: DataPoint[] }) {
   const [period, setPeriod] = useState<"week" | "month">("week");
+  const totalIncome = data.reduce((s, d) => s + d.income, 0);
+  const totalExpense = data.reduce((s, d) => s + d.expense, 0);
 
-  // For now, just use the weekly data passed in. In a fuller implementation
-  // we'd fetch month data on toggle.
   return (
-    <Card>
-      <CardHeader className="pb-2">
-        <div className="flex items-center justify-between flex-wrap gap-2">
-          <CardTitle className="text-base">Arus Kas</CardTitle>
-          <Tabs value={period} onValueChange={(v) => setPeriod(v as "week" | "month")}>
-            <TabsList className="h-8">
-              <TabsTrigger value="week" className="text-xs h-6">8 Minggu</TabsTrigger>
-              <TabsTrigger value="month" className="text-xs h-6">6 Bulan</TabsTrigger>
-            </TabsList>
-          </Tabs>
+    <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
+      <div className="px-4 pt-4 pb-2 flex items-center justify-between gap-3">
+        <div>
+          <h3 className="text-sm font-semibold">Arus Kas</h3>
+          <p className="text-[11px] text-muted-foreground mt-0.5">
+            {period === "week" ? "8 minggu terakhir" : "6 bulan terakhir"}
+          </p>
         </div>
-      </CardHeader>
-      <CardContent>
-        <div className="h-56">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
-              <XAxis
-                dataKey="label"
-                tick={{ fontSize: 11, fill: "#64748b" }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <YAxis
-                tick={{ fontSize: 11, fill: "#64748b" }}
-                axisLine={false}
-                tickLine={false}
-                tickFormatter={(v) => formatIDRCompact(v)}
-                width={50}
-              />
-              <Tooltip
-                contentStyle={{
-                  borderRadius: 8,
-                  border: "1px solid #e2e8f0",
-                  fontSize: 12,
-                }}
-                formatter={(v) => formatIDRCompact(Number(v))}
-              />
-              <Legend wrapperStyle={{ fontSize: 12 }} />
-              <Line
-                type="monotone"
-                dataKey="income"
-                name="Pemasukan"
-                stroke="#10b981"
-                strokeWidth={2.5}
-                dot={{ r: 3, fill: "#10b981" }}
-                activeDot={{ r: 5 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="expense"
-                name="Pengeluaran"
-                stroke="#ef4444"
-                strokeWidth={2.5}
-                dot={{ r: 3, fill: "#ef4444" }}
-                activeDot={{ r: 5 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+        <div className="inline-flex rounded-full border border-border bg-muted/50 p-0.5 text-[11px]">
+          <button
+            onClick={() => setPeriod("week")}
+            className={`px-2.5 py-1 rounded-full font-medium transition-colors ${
+              period === "week" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+            }`}
+          >
+            8 Mgg
+          </button>
+          <button
+            onClick={() => setPeriod("month")}
+            className={`px-2.5 py-1 rounded-full font-medium transition-colors ${
+              period === "month" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+            }`}
+          >
+            6 Bln
+          </button>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+
+      <div className="px-4 pb-2 flex items-center gap-3 text-[11px]">
+        <span className="inline-flex items-center gap-1.5">
+          <ArrowDownRight className="w-3 h-3" style={{ color: INCOME_COLOR }} />
+          <span className="text-muted-foreground">Masuk</span>
+          <span className="font-semibold tabular-nums">{formatIDRCompact(totalIncome)}</span>
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <ArrowUpRight className="w-3 h-3" style={{ color: EXPENSE_COLOR }} />
+          <span className="text-muted-foreground">Keluar</span>
+          <span className="font-semibold tabular-nums">{formatIDRCompact(totalExpense)}</span>
+        </span>
+      </div>
+
+      <div className="h-56 px-1 pb-2">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={data} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+            <defs>
+              <linearGradient id="cf-income" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={INCOME_COLOR} stopOpacity={0.45} />
+                <stop offset="100%" stopColor={INCOME_COLOR} stopOpacity={0.02} />
+              </linearGradient>
+              <linearGradient id="cf-expense" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={EXPENSE_COLOR} stopOpacity={0.40} />
+                <stop offset="100%" stopColor={EXPENSE_COLOR} stopOpacity={0.02} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 4" stroke="oklch(0.55 0.05 285 / 0.10)" vertical={false} />
+            <XAxis
+              dataKey="label"
+              tick={{ fontSize: 10, fill: "oklch(0.5 0.02 285)" }}
+              axisLine={false}
+              tickLine={false}
+              dy={4}
+            />
+            <YAxis
+              tick={{ fontSize: 10, fill: "oklch(0.5 0.02 285)" }}
+              axisLine={false}
+              tickLine={false}
+              tickFormatter={(v) => formatIDRCompact(v)}
+              width={50}
+            />
+            <Tooltip content={<CustomTooltip />} cursor={{ stroke: "oklch(0.55 0.22 285 / 0.4)", strokeDasharray: "3 3" }} />
+            <Area
+              type="monotone"
+              dataKey="income"
+              name="Pemasukan"
+              stroke={INCOME_COLOR}
+              strokeWidth={2.5}
+              fill="url(#cf-income)"
+              activeDot={{ r: 5, strokeWidth: 0 }}
+            />
+            <Area
+              type="monotone"
+              dataKey="expense"
+              name="Pengeluaran"
+              stroke={EXPENSE_COLOR}
+              strokeWidth={2.5}
+              fill="url(#cf-expense)"
+              activeDot={{ r: 5, strokeWidth: 0 }}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
   );
 }

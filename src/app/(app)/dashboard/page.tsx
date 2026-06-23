@@ -5,6 +5,7 @@ import { CashflowChart } from "@/components/dashboard/cashflow-chart";
 import { CategoryPieChart } from "@/components/dashboard/category-pie-chart";
 import { ProjectBarChart } from "@/components/dashboard/project-bar-chart";
 import { RecentTransactions } from "@/components/dashboard/recent-transactions";
+import { InsightsStrip } from "@/components/dashboard/insights-strip";
 import { getAccounts } from "@/actions/accounts";
 import { getCategories } from "@/actions/categories";
 import { getProjects } from "@/actions/projects";
@@ -15,7 +16,16 @@ import {
   buildCashflowByWeek,
   buildExpenseByCategory,
   buildProjectSummary,
+  buildSmartInsights,
 } from "@/lib/utils/chart-data";
+
+function greeting() {
+  const h = new Date().getHours();
+  if (h < 11) return "Selamat pagi";
+  if (h < 15) return "Selamat siang";
+  if (h < 19) return "Selamat sore";
+  return "Selamat malam";
+}
 
 export default async function DashboardPage() {
   const [accounts, categories, projects, transactions] = await Promise.all([
@@ -36,16 +46,39 @@ export default async function DashboardPage() {
   );
   const expenseByCategory = buildExpenseByCategory(transactions, categoryMap);
   const projectSummary = buildProjectSummary(transactions, projectMap);
-  const recent = transactions.slice(0, 8);
+  const insights = buildSmartInsights(transactions, categoryMap);
+  const recent = transactions.slice(0, 6);
 
   return (
     <>
-      <TopBar title="Dashboard" />
-      <div className="p-4 md:p-6 max-w-4xl mx-auto space-y-4">
-        <TotalBalanceCard balance={totalBalance} />
-        <BalanceCards balances={balances} />
-        <CashflowChart data={cashflow} />
-        <CategoryPieChart data={expenseByCategory} />
+      <TopBar title="Beranda" subtitle={`${greeting()} 👋`} />
+      <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-5">
+        {/* Hero row: balance + insights — bento style */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+          <div className="lg:col-span-3">
+            <TotalBalanceCard
+              balance={totalBalance}
+              monthIncome={insights.monthIncome}
+              monthExpense={insights.monthExpense}
+            />
+          </div>
+          <div className="lg:col-span-2">
+            <BalanceCards balances={balances} layout="stack" />
+          </div>
+        </div>
+
+        <InsightsStrip insights={insights} />
+
+        {/* Charts bento row */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+          <div className="lg:col-span-3">
+            <CashflowChart data={cashflow} />
+          </div>
+          <div className="lg:col-span-2">
+            <CategoryPieChart data={expenseByCategory} />
+          </div>
+        </div>
+
         <ProjectBarChart data={projectSummary} />
         <RecentTransactions transactions={recent} />
       </div>
