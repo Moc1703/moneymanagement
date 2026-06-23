@@ -6,10 +6,14 @@ import { CategoryPieChart } from "@/components/dashboard/category-pie-chart";
 import { ProjectBarChart } from "@/components/dashboard/project-bar-chart";
 import { RecentTransactions } from "@/components/dashboard/recent-transactions";
 import { InsightsStrip } from "@/components/dashboard/insights-strip";
+import { BudgetsOverview } from "@/components/dashboard/budgets-overview";
+import { GoalsOverview } from "@/components/dashboard/goals-overview";
 import { getAccounts } from "@/actions/accounts";
 import { getCategories } from "@/actions/categories";
 import { getProjects } from "@/actions/projects";
 import { getTransactions } from "@/actions/transactions";
+import { getBudgetsForMonth } from "@/actions/budgets";
+import { getGoals } from "@/actions/goals";
 import {
   computeAccountBalances,
   computeTotalBalance,
@@ -28,11 +32,13 @@ function greeting() {
 }
 
 export default async function DashboardPage() {
-  const [accounts, categories, projects, transactions] = await Promise.all([
+  const [accounts, categories, projects, transactions, budgets, goals] = await Promise.all([
     getAccounts(),
     getCategories(),
     getProjects(),
     getTransactions({ limit: 200 }),
+    getBudgetsForMonth(),
+    getGoals(),
   ]);
 
   const balances = computeAccountBalances(accounts, transactions);
@@ -48,12 +54,13 @@ export default async function DashboardPage() {
   const projectSummary = buildProjectSummary(transactions, projectMap);
   const insights = buildSmartInsights(transactions, categoryMap);
   const recent = transactions.slice(0, 6);
+  const fullCategoryMap = new Map(categories.map((c) => [c.id, c]));
 
   return (
     <>
       <TopBar title="Beranda" subtitle={`${greeting()} 👋`} />
       <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-5">
-        {/* Hero row: balance + insights — bento style */}
+        {/* Hero row */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
           <div className="lg:col-span-3">
             <TotalBalanceCard
@@ -68,6 +75,12 @@ export default async function DashboardPage() {
         </div>
 
         <InsightsStrip insights={insights} />
+
+        {/* Kantong + Goals bento row */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <BudgetsOverview budgets={budgets} categoryMap={fullCategoryMap} />
+          <GoalsOverview goals={goals} />
+        </div>
 
         {/* Charts bento row */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">

@@ -3,7 +3,7 @@
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Trash2 } from "lucide-react";
+import { Trash2, Repeat } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -68,8 +68,14 @@ export function TransactionList({
               {tx.category?.icon ?? "•"}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-sm truncate">
-                {tx.description || tx.category?.name}
+              <p className="font-medium text-sm truncate flex items-center gap-1.5">
+                {tx.recurring_rule_id && (
+                  <Repeat
+                    className="w-3 h-3 text-primary shrink-0"
+                    aria-label="Transaksi berulang"
+                  />
+                )}
+                <span className="truncate">{tx.description || tx.category?.name}</span>
               </p>
               <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground mt-0.5 flex-wrap">
                 <span className="truncate">{tx.account?.name?.replace("Rekening ", "") ?? "-"}</span>

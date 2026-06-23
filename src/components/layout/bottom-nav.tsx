@@ -10,7 +10,7 @@ const navItems = [
   { href: "/reports", label: "Laporan", icon: BarChart3 },
   { href: "/input", label: "Input", icon: Plus, primary: true },
   { href: "/transfers", label: "Transfer", icon: ArrowLeftRight },
-  { href: "/settings", label: "Setting", icon: Settings },
+  { href: "/settings", label: "Lainnya", icon: Settings },
 ];
 
 export function BottomNav() {

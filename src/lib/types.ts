@@ -73,6 +73,7 @@ export interface Transaction {
   date: string;
   description: string | null;
   transfer_group_id: string | null;
+  recurring_rule_id: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -81,6 +82,133 @@ export interface TransactionWithRelations extends Transaction {
   account: Account | null;
   project: Project | null;
   category: Category | null;
+}
+
+// -- Phase 2 — Kantong / Goals / Recurring / Hutang Piutang ------------------
+
+export interface Budget {
+  id: string;
+  user_id: string;
+  category_id: string;
+  period_month: string;
+  amount: number;
+  rollover: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BudgetProgress {
+  budget_id: string;
+  user_id: string;
+  category_id: string;
+  period_month: string;
+  amount: number;
+  rollover: boolean;
+  spent: number;
+}
+
+export type Frequency = "weekly" | "biweekly" | "monthly" | "yearly";
+
+export interface RecurringRule {
+  id: string;
+  user_id: string;
+  account_id: string;
+  category_id: string;
+  project_id: string | null;
+  type: TransactionType;
+  amount: number;
+  description: string | null;
+  frequency: Frequency;
+  day_of_week: number | null;
+  day_of_month: number | null;
+  start_date: string;
+  end_date: string | null;
+  last_generated_until: string | null;
+  skip_dates: string[];
+  active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Goal {
+  id: string;
+  user_id: string;
+  name: string;
+  target_amount: number;
+  target_date: string | null;
+  account_id: string | null;
+  color: string;
+  icon: string;
+  archived_at: string | null;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface GoalProgress {
+  goal_id: string;
+  user_id: string;
+  name: string;
+  target_amount: number;
+  target_date: string | null;
+  account_id: string | null;
+  color: string;
+  icon: string;
+  archived_at: string | null;
+  current_amount: number;
+  days_remaining: number | null;
+}
+
+export interface GoalContribution {
+  id: string;
+  user_id: string;
+  goal_id: string;
+  transaction_id: string | null;
+  amount: number;
+  contribution_date: string;
+  note: string | null;
+  created_at: string;
+}
+
+export type DebtDirection = "owe" | "lent";
+export type DebtStatus = "open" | "partial" | "settled";
+
+export interface Debt {
+  id: string;
+  user_id: string;
+  counterparty: string;
+  direction: DebtDirection;
+  principal: number;
+  due_date: string | null;
+  note: string | null;
+  status: DebtStatus;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface DebtBalance {
+  debt_id: string;
+  user_id: string;
+  counterparty: string;
+  direction: DebtDirection;
+  principal: number;
+  due_date: string | null;
+  note: string | null;
+  status: DebtStatus;
+  created_at: string;
+  paid: number;
+  outstanding: number;
+}
+
+export interface DebtPayment {
+  id: string;
+  user_id: string;
+  debt_id: string;
+  transaction_id: string | null;
+  amount: number;
+  payment_date: string;
+  note: string | null;
+  created_at: string;
 }
 
 // Generic row types — keep Insert/Update permissive so actions can pass partials.

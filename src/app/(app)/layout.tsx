@@ -5,6 +5,7 @@ import { SideNav } from "@/components/layout/side-nav";
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
 import { getProfile } from "@/actions/profile";
 import { getAccounts } from "@/actions/accounts";
+import { ensureRecurringMaterialized } from "@/actions/recurring";
 
 export default async function AppLayout({
   children,
@@ -21,6 +22,16 @@ export default async function AppLayout({
   const profile = await getProfile();
   const needsOnboarding = profile ? !profile.onboarding_done : false;
   const accounts = needsOnboarding ? await getAccounts() : [];
+
+  // Fire-and-forget: materialize recurring transactions ahead 30 days.
+  // Idempotent; failures don't block the page.
+  if (!needsOnboarding) {
+    try {
+      await ensureRecurringMaterialized();
+    } catch {
+      /* swallow — recurring failure shouldn't break navigation */
+    }
+  }
 
   return (
     <div className="flex min-h-screen bg-background">

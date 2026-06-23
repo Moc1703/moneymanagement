@@ -2,15 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Plus, BarChart3, ArrowLeftRight, Settings, LogOut, Sparkles } from "lucide-react";
+import { Home, Plus, BarChart3, ArrowLeftRight, Settings, LogOut, Sparkles, Target, HandCoins } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "@/actions/auth";
 
 const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: Home },
+  { href: "/dashboard", label: "Beranda", icon: Home },
   { href: "/input", label: "Input Transaksi", icon: Plus },
   { href: "/reports", label: "Laporan", icon: BarChart3 },
   { href: "/transfers", label: "Transfer", icon: ArrowLeftRight },
+  { href: "/goals", label: "Tabungan Tujuan", icon: Target },
+  { href: "/debts", label: "Hutang & Piutang", icon: HandCoins },
   { href: "/settings", label: "Pengaturan", icon: Settings },
 ];
 
@@ -28,7 +30,7 @@ export function SideNav() {
           <span className="block text-[11px] text-muted-foreground">Smart cashflow</span>
         </div>
       </div>
-      <nav className="flex-1 p-3 space-y-1">
+      <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
           const Icon = item.icon;
