@@ -6,8 +6,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { ChevronDown, ChevronUp, Save, Trash2 } from "lucide-react";
-import { formatIDR, parseIDR } from "@/lib/utils/format";
+import { parseIDR } from "@/lib/utils/format";
 import type { Account } from "@/lib/types";
 
 const COLOR_OPTIONS = ["#ec4899", "#3b82f6", "#10b981", "#f59e0b", "#8b5cf6", "#ef4444", "#06b6d4", "#64748b"];
@@ -41,16 +42,13 @@ export function AccountForm({
     });
   }
 
-  function handleArchive() {
-    if (!confirm(`Arsipkan rekening "${account.name}"?`)) return;
-    startTransition(async () => {
-      const result = await onArchive();
-      if (result.error) {
-        toast.error(result.error);
-      } else {
-        toast.success("Rekening diarsipkan");
-      }
-    });
+  async function handleArchive() {
+    const result = await onArchive();
+    if (result.error) {
+      toast.error(result.error);
+    } else {
+      toast.success("Rekening diarsipkan");
+    }
   }
 
   return (
@@ -138,15 +136,24 @@ export function AccountForm({
                 <Save className="w-4 h-4 mr-1" />
                 Simpan
               </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleArchive}
-                disabled={isPending}
-                aria-label="Arsipkan"
-              >
-                <Trash2 className="w-4 h-4" />
-              </Button>
+              <ConfirmDialog
+                trigger={
+                  <Button
+                    type="button"
+                    variant="outline"
+                    disabled={isPending}
+                    aria-label="Arsipkan"
+                    className="min-w-11 min-h-11"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                }
+                title={`Arsipkan rekening "${account.name}"?`}
+                description="Rekening ini akan disembunyikan dari daftar. Transaksi yang sudah ada tetap tersimpan."
+                confirmLabel="Arsipkan"
+                tone="destructive"
+                onConfirm={handleArchive}
+              />
             </div>
           </form>
         )}

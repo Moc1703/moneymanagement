@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { ChevronDown, ChevronUp, Lock, Trash2 } from "lucide-react";
 import { updateCategory } from "@/actions/categories";
 import type { Category } from "@/lib/types";
@@ -34,16 +35,13 @@ export function CategoryForm({
     });
   }
 
-  function handleDelete() {
-    if (!confirm(`Hapus kategori "${category.name}"?`)) return;
-    startTransition(async () => {
-      const result = await onDelete();
-      if (result.error) {
-        toast.error(result.error);
-      } else {
-        toast.success("Kategori dihapus");
-      }
-    });
+  async function handleDelete() {
+    const result = await onDelete();
+    if (result.error) {
+      toast.error(result.error);
+    } else {
+      toast.success("Kategori dihapus");
+    }
   }
 
   return (
@@ -97,9 +95,18 @@ export function CategoryForm({
                 Simpan
               </Button>
               {!category.is_default && (
-                <Button type="button" variant="outline" size="sm" onClick={handleDelete} disabled={isPending} aria-label="Hapus">
-                  <Trash2 className="w-4 h-4" />
-                </Button>
+                <ConfirmDialog
+                  trigger={
+                    <Button type="button" variant="outline" size="sm" disabled={isPending} aria-label="Hapus" className="min-w-11 min-h-11">
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  }
+                  title={`Hapus kategori "${category.name}"?`}
+                  description="Transaksi yang pakai kategori ini tetap ada, tapi tag kategorinya hilang."
+                  confirmLabel="Hapus"
+                  tone="destructive"
+                  onConfirm={handleDelete}
+                />
               )}
             </div>
             {category.is_default && (

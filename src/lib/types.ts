@@ -17,6 +17,7 @@ export type TransactionType = "income" | "expense";
 export interface Profile {
   id: string;
   display_name: string;
+  onboarding_done: boolean;
   created_at: string;
   updated_at: string;
 }

@@ -10,6 +10,8 @@ import {
   Tooltip,
   CartesianGrid,
 } from "recharts";
+import { EmptyState } from "@/components/ui/empty-state";
+import { BarChart3 } from "lucide-react";
 
 type Project = { name: string; income: number; expense: number; net: number; color: string };
 
@@ -44,7 +46,14 @@ export function ProjectBarChart({ data }: { data: Project[] }) {
 
       <div className="px-2 pb-3">
         {data.length === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-10">Belum ada transaksi bulan ini</p>
+          <EmptyState
+            icon={<BarChart3 className="w-5 h-5" />}
+            title="Belum ada transaksi bulan ini"
+            description="Tag tiap transaksi ke project biar laba/rugi per project keliatan."
+            ctaLabel="Catat transaksi"
+            ctaHref="/input"
+            variant="inline"
+          />
         ) : (
           <div className="h-56 px-1">
             <ResponsiveContainer width="100%" height="100%">

@@ -53,7 +53,7 @@ export function CashflowChart({ data }: { data: DataPoint[] }) {
         <div className="inline-flex rounded-full border border-border bg-muted/50 p-0.5 text-[11px]">
           <button
             onClick={() => setPeriod("week")}
-            className={`px-2.5 py-1 rounded-full font-medium transition-colors ${
+            className={`min-h-8 px-3 py-1 rounded-full font-medium transition-colors ${
               period === "week" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
             }`}
           >
@@ -61,7 +61,7 @@ export function CashflowChart({ data }: { data: DataPoint[] }) {
           </button>
           <button
             onClick={() => setPeriod("month")}
-            className={`px-2.5 py-1 rounded-full font-medium transition-colors ${
+            className={`min-h-8 px-3 py-1 rounded-full font-medium transition-colors ${
               period === "month" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
             }`}
           >

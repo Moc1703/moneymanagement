@@ -14,6 +14,7 @@ export async function getTransactions(options?: {
   startDate?: string;
   endDate?: string;
   type?: "income" | "expense";
+  search?: string;
 }) {
   const supabase = await createClient();
   let query = supabase
@@ -28,6 +29,15 @@ export async function getTransactions(options?: {
   if (options?.type) query = query.eq("type", options.type);
   if (options?.startDate) query = query.gte("date", options.startDate);
   if (options?.endDate) query = query.lte("date", options.endDate);
+  if (options?.search) {
+    const trimmed = options.search.trim();
+    if (trimmed.length > 0) {
+      query = query.textSearch("search_vector", trimmed, {
+        type: "websearch",
+        config: "simple",
+      });
+    }
+  }
 
   const { data, error } = await query;
   if (error) throw error;

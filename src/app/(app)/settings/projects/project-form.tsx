@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { ChevronDown, ChevronUp, Lock, Trash2 } from "lucide-react";
 import { updateProject } from "@/actions/projects";
 import type { Project } from "@/lib/types";
@@ -37,16 +38,13 @@ export function ProjectForm({
     });
   }
 
-  function handleArchive() {
-    if (!confirm(`Arsipkan project "${project.name}"?`)) return;
-    startTransition(async () => {
-      const result = await onArchive();
-      if (result.error) {
-        toast.error(result.error);
-      } else {
-        toast.success("Project diarsipkan");
-      }
-    });
+  async function handleArchive() {
+    const result = await onArchive();
+    if (result.error) {
+      toast.error(result.error);
+    } else {
+      toast.success("Project diarsipkan");
+    }
   }
 
   return (
@@ -109,16 +107,25 @@ export function ProjectForm({
                 Simpan
               </Button>
               {!project.is_default && (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={handleArchive}
-                  disabled={isPending}
-                  aria-label="Arsipkan"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
+                <ConfirmDialog
+                  trigger={
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      disabled={isPending}
+                      aria-label="Arsipkan"
+                      className="min-w-11 min-h-11"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  }
+                  title={`Arsipkan project "${project.name}"?`}
+                  description="Project ini akan disembunyikan. Transaksi yang terkait tetap ada di laporan."
+                  confirmLabel="Arsipkan"
+                  tone="destructive"
+                  onConfirm={handleArchive}
+                />
               )}
             </div>
             {project.is_default && (

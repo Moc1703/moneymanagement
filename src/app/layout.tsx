@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { getTheme } from "@/actions/theme";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,17 +26,30 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const theme = await getTheme();
+  const themeClass = theme === "dark" ? "dark" : "";
+  // For "system", let the client script below decide on initial paint.
+  const systemScript =
+    theme === "system"
+      ? `(function(){try{var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(_){}})();`
+      : null;
+
   return (
     <html
       lang="id"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${themeClass} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        {systemScript && (
+          <script
+            dangerouslySetInnerHTML={{ __html: systemScript }}
+          />
+        )}
         {children}
         <Toaster richColors position="top-center" />
       </body>

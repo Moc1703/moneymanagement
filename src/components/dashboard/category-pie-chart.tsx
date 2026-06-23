@@ -2,6 +2,8 @@
 
 import { formatIDR, formatIDRCompact } from "@/lib/utils/format";
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
+import { EmptyState } from "@/components/ui/empty-state";
+import { PieChart as PieIcon } from "lucide-react";
 
 type Slice = { name: string; value: number; color: string };
 
@@ -31,9 +33,14 @@ export function CategoryPieChart({ data }: { data: Slice[] }) {
 
       <div className="px-4 pb-4">
         {data.length === 0 ? (
-          <div className="py-10 text-center text-sm text-muted-foreground">
-            Belum ada pengeluaran bulan ini
-          </div>
+          <EmptyState
+            icon={<PieIcon className="w-5 h-5" />}
+            title="Belum ada pengeluaran bulan ini"
+            description="Catat pengeluaran biar kebagi otomatis per kategori."
+            ctaLabel="Catat pengeluaran"
+            ctaHref="/input"
+            variant="inline"
+          />
         ) : (
           <>
             <div className="relative h-48">

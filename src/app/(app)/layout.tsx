@@ -2,6 +2,9 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { SideNav } from "@/components/layout/side-nav";
+import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
+import { getProfile } from "@/actions/profile";
+import { getAccounts } from "@/actions/accounts";
 
 export default async function AppLayout({
   children,
@@ -15,6 +18,10 @@ export default async function AppLayout({
     redirect("/login");
   }
 
+  const profile = await getProfile();
+  const needsOnboarding = profile ? !profile.onboarding_done : false;
+  const accounts = needsOnboarding ? await getAccounts() : [];
+
   return (
     <div className="flex min-h-screen bg-background">
       <SideNav />
@@ -22,6 +29,7 @@ export default async function AppLayout({
         {children}
       </main>
       <BottomNav />
+      {needsOnboarding && accounts.length > 0 && <OnboardingWizard accounts={accounts} />}
     </div>
   );
 }

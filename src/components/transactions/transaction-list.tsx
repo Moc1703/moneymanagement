@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Receipt } from "lucide-react";
 import { formatIDR, formatDateShort } from "@/lib/utils/format";
 import { deleteTransaction } from "@/actions/transactions";
 import type { TransactionWithRelations } from "@/lib/types";
@@ -17,26 +20,33 @@ export function TransactionList({
   compact?: boolean;
 }) {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   if (transactions.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-border bg-card/60 p-8 text-center text-sm text-muted-foreground">
-        Belum ada transaksi
-      </div>
+      <EmptyState
+        icon={<Receipt className="w-5 h-5" />}
+        title="Belum ada transaksi"
+        description="Catat pemasukan atau pengeluaran pertama lo biar saldo & laporan mulai jalan."
+        ctaLabel="Catat transaksi"
+        ctaHref="/input"
+        variant={compact ? "inline" : "card"}
+      />
     );
   }
 
-  function handleDelete(id: string, desc: string) {
-    if (!confirm(`Hapus transaksi "${desc}"?`)) return;
-    startTransition(async () => {
-      const result = await deleteTransaction(id);
-      if (result.error) {
-        toast.error(result.error);
-      } else {
-        toast.success("Transaksi dihapus");
-        router.refresh();
-      }
+  function handleDelete(id: string) {
+    return new Promise<void>((resolve) => {
+      startTransition(async () => {
+        const result = await deleteTransaction(id);
+        if (result.error) {
+          toast.error(result.error);
+        } else {
+          toast.success("Transaksi dihapus");
+          router.refresh();
+        }
+        resolve();
+      });
     });
   }
 
@@ -90,18 +100,28 @@ export function TransactionList({
               </p>
             </div>
             {!compact && !tx.transfer_group_id && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() =>
-                  handleDelete(tx.id, tx.description || tx.category?.name || "ini")
+              <ConfirmDialog
+                trigger={
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="shrink-0 text-muted-foreground hover:text-rose-600 min-w-11 min-h-11"
+                    aria-label="Hapus"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
                 }
-                disabled={isPending}
-                className="shrink-0 text-muted-foreground hover:text-rose-600"
-                aria-label="Hapus"
-              >
-                <Trash2 className="w-4 h-4" />
-              </Button>
+                title="Hapus transaksi ini?"
+                description={
+                  <>
+                    Tindakan ini tidak bisa dibatalkan. Transaksi{" "}
+                    <strong>{tx.description || tx.category?.name || "ini"}</strong>{" "}
+                    senilai {formatIDR(tx.amount)} akan dihapus permanen.
+                  </>
+                }
+                confirmLabel="Hapus"
+                onConfirm={() => handleDelete(tx.id)}
+              />
             )}
           </div>
         );
