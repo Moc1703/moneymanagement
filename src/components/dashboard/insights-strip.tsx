@@ -24,7 +24,7 @@ function Chip({
   };
   const t = toneMap[tone];
   return (
-    <div className={`shrink-0 snap-start w-[180px] rounded-2xl border border-border bg-card p-4 ring-1 ${t.ring} shadow-soft`}>
+    <div className={`shrink-0 snap-start w-[170px] md:w-[180px] rounded-2xl border border-border bg-card p-3.5 md:p-4 ring-1 ${t.ring} shadow-soft`}>
       <div className="flex items-center gap-2">
         <span className={`flex items-center justify-center w-8 h-8 rounded-lg ${t.bg} ${t.icon}`}>
           {icon}

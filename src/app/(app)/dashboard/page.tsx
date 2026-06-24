@@ -82,10 +82,22 @@ export default async function DashboardPage() {
 
   return (
     <>
-      <TopBar title="Beranda" subtitle={`${greeting()} 👋`} />
-      <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-8 md:space-y-10">
+      <TopBar title="Beranda" />
+      <div className="px-4 pt-4 pb-2 md:px-8 md:pt-6 max-w-5xl mx-auto">
+        <div className="flex items-baseline justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground font-semibold">
+              {new Date().toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long" })}
+            </p>
+            <h1 className="mt-1 text-xl md:text-2xl font-bold tracking-tight">
+              {greeting()} <span className="inline-block">👋</span>
+            </h1>
+          </div>
+        </div>
+      </div>
+      <div className="px-4 pb-4 md:px-8 md:pb-8 max-w-5xl mx-auto space-y-6 md:space-y-10">
         {/* SALDO — hero + per-rekening */}
-        <section className="space-y-4">
+        <section className="space-y-3 md:space-y-4">
           <TotalBalanceCard
             balance={totalBalance}
             monthIncome={insights.monthIncome}

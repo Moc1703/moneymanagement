@@ -70,19 +70,19 @@ const ACTIONS: Action[] = [
 
 export function QuickActions() {
   return (
-    <nav aria-label="Aksi cepat" className="grid grid-cols-4 gap-3 md:grid-cols-8">
+    <nav aria-label="Aksi cepat" className="grid grid-cols-4 gap-x-2 gap-y-3 md:grid-cols-8 md:gap-x-3">
       {ACTIONS.map(({ href, label, icon: Icon, tint, bg }) => (
         <Link
           key={href}
           href={href}
-          className="group flex flex-col items-center gap-2 text-center transition-transform active:scale-95"
+          className="group flex flex-col items-center gap-1.5 text-center transition-transform active:scale-95"
         >
           <span
-            className={`flex items-center justify-center w-14 h-14 rounded-2xl ${bg} ${tint} shadow-soft transition-shadow group-hover:shadow-soft-lg`}
+            className={`flex items-center justify-center w-[60px] h-[60px] md:w-16 md:h-16 rounded-2xl ${bg} ${tint} shadow-soft transition-shadow group-hover:shadow-soft-lg`}
           >
-            <Icon className="w-6 h-6" strokeWidth={2.25} />
+            <Icon className="w-6 h-6 md:w-7 md:h-7" strokeWidth={2.25} />
           </span>
-          <span className="text-[11px] font-medium text-foreground/85 leading-tight">{label}</span>
+          <span className="text-[11px] md:text-xs font-semibold text-foreground/85 leading-tight">{label}</span>
         </Link>
       ))}
     </nav>

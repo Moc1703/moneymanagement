@@ -50,7 +50,7 @@ export function TotalBalanceCard({ balance, monthIncome, monthExpense, sparkline
   const netPositive = net >= 0;
   return (
     <div className="relative overflow-hidden rounded-[28px] gradient-hero text-white shadow-hero">
-      <div className="relative p-7 md:p-9">
+      <div className="relative p-5 md:p-9">
         <div className="flex items-center justify-between">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-white/12 px-3 py-1 text-[11px] font-semibold tracking-wide">
             Total Saldo
@@ -61,35 +61,35 @@ export function TotalBalanceCard({ balance, monthIncome, monthExpense, sparkline
         </div>
 
         <p
-          className={`mt-5 font-bold tabular-nums tracking-tight leading-[0.95] text-[2.6rem] md:text-6xl ${
+          className={`mt-4 font-bold tabular-nums tracking-tight leading-[0.95] text-[2.1rem] md:text-6xl ${
             isNegative ? "text-rose-200" : "text-white"
           }`}
         >
           {formatIDR(balance)}
         </p>
-        <p className="mt-2 text-xs text-white/65">3 rekening · sinkron tiap device</p>
+        <p className="mt-2 text-[11px] md:text-xs text-white/65">3 rekening · sinkron tiap device</p>
 
         {sparkline && <Sparkline data={sparkline} />}
 
-        <div className="relative mt-7 grid grid-cols-3 gap-3">
-          <div className="rounded-2xl bg-white/10 backdrop-blur-[2px] border border-white/10 px-3 py-2.5">
+        <div className="relative mt-6 grid grid-cols-3 gap-2 md:gap-3">
+          <div className="rounded-2xl bg-white/10 border border-white/10 px-2.5 py-2 md:px-3 md:py-2.5">
             <div className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/70 font-semibold">
               <ArrowDownRight className="w-3 h-3 text-emerald-300" />
               Masuk
             </div>
-            <p className="mt-1.5 font-semibold text-sm tabular-nums truncate">{formatIDR(monthIncome)}</p>
+            <p className="mt-1 font-semibold text-[13px] md:text-sm tabular-nums truncate">{formatIDR(monthIncome)}</p>
           </div>
-          <div className="rounded-2xl bg-white/10 backdrop-blur-[2px] border border-white/10 px-3 py-2.5">
+          <div className="rounded-2xl bg-white/10 border border-white/10 px-2.5 py-2 md:px-3 md:py-2.5">
             <div className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/70 font-semibold">
               <ArrowUpRight className="w-3 h-3 text-rose-300" />
               Keluar
             </div>
-            <p className="mt-1.5 font-semibold text-sm tabular-nums truncate">{formatIDR(monthExpense)}</p>
+            <p className="mt-1 font-semibold text-[13px] md:text-sm tabular-nums truncate">{formatIDR(monthExpense)}</p>
           </div>
-          <div className="rounded-2xl bg-white/10 backdrop-blur-[2px] border border-white/10 px-3 py-2.5">
+          <div className="rounded-2xl bg-white/10 border border-white/10 px-2.5 py-2 md:px-3 md:py-2.5">
             <div className="text-[10px] uppercase tracking-wider text-white/70 font-semibold">Net</div>
             <p
-              className={`mt-1.5 font-semibold text-sm tabular-nums truncate ${
+              className={`mt-1 font-semibold text-[13px] md:text-sm tabular-nums truncate ${
                 netPositive ? "text-emerald-200" : "text-rose-200"
               }`}
             >
