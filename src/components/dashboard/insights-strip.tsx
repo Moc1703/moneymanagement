@@ -24,15 +24,15 @@ function Chip({
   };
   const t = toneMap[tone];
   return (
-    <div className={`shrink-0 snap-start min-w-[160px] rounded-2xl border border-border bg-card p-3 ring-1 ${t.ring} shadow-soft`}>
+    <div className={`shrink-0 snap-start w-[180px] rounded-2xl border border-border bg-card p-4 ring-1 ${t.ring} shadow-soft`}>
       <div className="flex items-center gap-2">
-        <span className={`flex items-center justify-center w-7 h-7 rounded-lg ${t.bg} ${t.icon}`}>
+        <span className={`flex items-center justify-center w-8 h-8 rounded-lg ${t.bg} ${t.icon}`}>
           {icon}
         </span>
-        <p className="text-[11px] uppercase tracking-wide text-muted-foreground font-medium truncate">{label}</p>
+        <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold truncate">{label}</p>
       </div>
-      <p className="mt-2 font-semibold text-sm tabular-nums truncate">{value}</p>
-      {sub && <p className={`mt-0.5 text-[11px] ${t.text} truncate`}>{sub}</p>}
+      <p className="mt-3 font-bold text-base tabular-nums truncate">{value}</p>
+      {sub && <p className={`mt-1 text-[11px] ${t.text} truncate`}>{sub}</p>}
     </div>
   );
 }
@@ -51,12 +51,12 @@ export function InsightsStrip({ insights }: { insights: SmartInsights }) {
 
   return (
     <section aria-label="Insight cepat">
-      <div className="flex items-center justify-between mb-2">
-        <h2 className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">Smart Insights</h2>
+      <div className="flex items-end justify-between mb-3">
+        <h2 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Smart Insights</h2>
         <span className="text-[11px] text-muted-foreground">otomatis dari data lo</span>
       </div>
       <div className="-mx-4 px-4 md:mx-0 md:px-0 overflow-x-auto snap-x snap-mandatory">
-        <div className="flex gap-2.5 pb-1">
+        <div className="flex gap-3 pb-1">
           <Chip
             tone={savingsTone}
             icon={<PiggyBank className="w-4 h-4" />}

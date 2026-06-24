@@ -27,14 +27,14 @@ export function BalanceCards({
         return (
           <div
             key={account.id}
-            className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft transition-shadow hover:shadow-soft-lg"
+            className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-soft transition-shadow hover:shadow-soft-lg"
           >
             <div
               aria-hidden
               className="absolute top-0 left-0 right-0 h-1"
               style={{ backgroundColor: account.color }}
             />
-            <div className="p-4">
+            <div className="p-5">
               <div className="flex items-center gap-2">
                 <span
                   className="flex items-center justify-center w-10 h-10 rounded-xl text-lg shrink-0 ring-1 ring-inset"

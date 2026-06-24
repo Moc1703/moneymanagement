@@ -5,10 +5,10 @@ import { ArrowRight } from "lucide-react";
 
 export function RecentTransactions({ transactions }: { transactions: TransactionWithRelations[] }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
-      <div className="flex items-center justify-between px-4 pt-4 pb-2">
+    <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-soft">
+      <div className="flex items-center justify-between px-5 pt-5 pb-3">
         <div>
-          <h3 className="text-sm font-semibold">Transaksi Terbaru</h3>
+          <h3 className="text-base font-semibold">Transaksi Terbaru</h3>
           <p className="text-[11px] text-muted-foreground mt-0.5">Sinkron otomatis</p>
         </div>
         <Link
@@ -19,7 +19,7 @@ export function RecentTransactions({ transactions }: { transactions: Transaction
           <ArrowRight className="w-3 h-3" />
         </Link>
       </div>
-      <div className="px-2 pb-3">
+      <div className="px-3 pb-3">
         <TransactionList transactions={transactions} compact />
       </div>
     </div>

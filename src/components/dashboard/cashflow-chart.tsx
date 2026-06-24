@@ -42,10 +42,10 @@ export function CashflowChart({ data }: { data: DataPoint[] }) {
   const totalExpense = data.reduce((s, d) => s + d.expense, 0);
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
-      <div className="px-4 pt-4 pb-2 flex items-center justify-between gap-3">
+    <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-soft">
+      <div className="px-5 pt-5 pb-2 flex items-center justify-between gap-3">
         <div>
-          <h3 className="text-sm font-semibold">Arus Kas</h3>
+          <h3 className="text-base font-semibold">Arus Kas</h3>
           <p className="text-[11px] text-muted-foreground mt-0.5">
             {period === "week" ? "8 minggu terakhir" : "6 bulan terakhir"}
           </p>
@@ -70,7 +70,7 @@ export function CashflowChart({ data }: { data: DataPoint[] }) {
         </div>
       </div>
 
-      <div className="px-4 pb-2 flex items-center gap-3 text-[11px]">
+      <div className="px-5 pb-2 flex items-center gap-3 text-[11px]">
         <span className="inline-flex items-center gap-1.5">
           <ArrowDownRight className="w-3 h-3" style={{ color: INCOME_COLOR }} />
           <span className="text-muted-foreground">Masuk</span>
@@ -83,7 +83,7 @@ export function CashflowChart({ data }: { data: DataPoint[] }) {
         </span>
       </div>
 
-      <div className="h-56 px-1 pb-2">
+      <div className="h-60 px-2 pb-3">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
             <defs>

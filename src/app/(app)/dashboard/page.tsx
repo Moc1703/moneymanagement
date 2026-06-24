@@ -36,6 +36,17 @@ function greeting() {
   return "Selamat malam";
 }
 
+function SectionTitle({ children, action }: { children: React.ReactNode; action?: React.ReactNode }) {
+  return (
+    <div className="flex items-end justify-between mb-3">
+      <h2 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+        {children}
+      </h2>
+      {action}
+    </div>
+  );
+}
+
 export default async function DashboardPage() {
   const [accounts, categories, projects, transactions, budgets, goals, subs, recurringRules] = await Promise.all([
     getAccounts(),
@@ -62,52 +73,71 @@ export default async function DashboardPage() {
   const insights = buildSmartInsights(transactions, categoryMap);
   const recent = transactions.slice(0, 6);
   const fullCategoryMap = new Map(categories.map((c) => [c.id, c]));
-  const projection = buildProjection(totalBalance, recurringRules.filter((r) => r.active), 12);
+  const activeRules = recurringRules.filter((r) => r.active);
+  const projection = buildProjection(totalBalance, activeRules, 12);
+  const hasProjection = activeRules.length > 0;
 
   return (
     <>
       <TopBar title="Beranda" subtitle={`${greeting()} 👋`} />
-      <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-5">
-        {/* Hero row */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-          <div className="lg:col-span-3">
-            <TotalBalanceCard
-              balance={totalBalance}
-              monthIncome={insights.monthIncome}
-              monthExpense={insights.monthExpense}
-            />
+      <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-8 md:space-y-10">
+        {/* SALDO — hero + per-rekening */}
+        <section className="space-y-4">
+          <TotalBalanceCard
+            balance={totalBalance}
+            monthIncome={insights.monthIncome}
+            monthExpense={insights.monthExpense}
+          />
+          <BalanceCards balances={balances} />
+        </section>
+
+        {/* INSIGHT — quick chips */}
+        <section>
+          <InsightsStrip insights={insights} />
+        </section>
+
+        {/* AKTIVITAS — kantong + goals + subscriptions bento */}
+        <section>
+          <SectionTitle>Aktivitas</SectionTitle>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <BudgetsOverview budgets={budgets} categoryMap={fullCategoryMap} />
+            <GoalsOverview goals={goals} />
           </div>
-          <div className="lg:col-span-2">
-            <BalanceCards balances={balances} layout="stack" />
+          {subs.length > 0 && (
+            <div className="mt-4">
+              <SubscriptionsCard subs={subs} />
+            </div>
+          )}
+        </section>
+
+        {/* CHARTS — cashflow + per-kategori */}
+        <section>
+          <SectionTitle>Bulan ini</SectionTitle>
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+            <div className="lg:col-span-3">
+              <CashflowChart data={cashflow} />
+            </div>
+            <div className="lg:col-span-2">
+              <CategoryPieChart data={expenseByCategory} />
+            </div>
           </div>
-        </div>
+          <div className="mt-4">
+            <ProjectBarChart data={projectSummary} />
+          </div>
+        </section>
 
-        <InsightsStrip insights={insights} />
-
-        {/* Kantong + Goals bento row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <BudgetsOverview budgets={budgets} categoryMap={fullCategoryMap} />
-          <GoalsOverview goals={goals} />
-        </div>
-
-        {subs.length > 0 && <SubscriptionsCard subs={subs} />}
-
-        {recurringRules.filter((r) => r.active).length > 0 && (
-          <CashflowProjectionCard data={projection} />
+        {/* PROYEKSI — only if recurring rules exist */}
+        {hasProjection && (
+          <section>
+            <SectionTitle>Proyeksi 12 bulan</SectionTitle>
+            <CashflowProjectionCard data={projection} />
+          </section>
         )}
 
-        {/* Charts bento row */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-          <div className="lg:col-span-3">
-            <CashflowChart data={cashflow} />
-          </div>
-          <div className="lg:col-span-2">
-            <CategoryPieChart data={expenseByCategory} />
-          </div>
-        </div>
-
-        <ProjectBarChart data={projectSummary} />
-        <RecentTransactions transactions={recent} />
+        {/* RIWAYAT */}
+        <section>
+          <RecentTransactions transactions={recent} />
+        </section>
       </div>
     </>
   );

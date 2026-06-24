@@ -25,13 +25,13 @@ export function CategoryPieChart({ data }: { data: Slice[] }) {
   const total = data.reduce((s, d) => s + d.value, 0);
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
-      <div className="px-4 pt-4 pb-1">
-        <h3 className="text-sm font-semibold">Pengeluaran per Kategori</h3>
+    <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-soft">
+      <div className="px-5 pt-5 pb-1">
+        <h3 className="text-base font-semibold">Pengeluaran per Kategori</h3>
         <p className="text-[11px] text-muted-foreground mt-0.5">Bulan ini</p>
       </div>
 
-      <div className="px-4 pb-4">
+      <div className="px-5 pb-5">
         {data.length === 0 ? (
           <EmptyState
             icon={<PieIcon className="w-5 h-5" />}

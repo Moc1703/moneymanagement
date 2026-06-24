@@ -38,13 +38,13 @@ function CustomTooltip({ active, payload, label }: { active?: boolean; payload?:
 
 export function ProjectBarChart({ data }: { data: Project[] }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
-      <div className="px-4 pt-4 pb-1">
-        <h3 className="text-sm font-semibold">Per Project</h3>
+    <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-soft">
+      <div className="px-5 pt-5 pb-1">
+        <h3 className="text-base font-semibold">Per Project</h3>
         <p className="text-[11px] text-muted-foreground mt-0.5">Bulan ini · Pemasukan vs Pengeluaran</p>
       </div>
 
-      <div className="px-2 pb-3">
+      <div className="px-3 pb-4">
         {data.length === 0 ? (
           <EmptyState
             icon={<BarChart3 className="w-5 h-5" />}

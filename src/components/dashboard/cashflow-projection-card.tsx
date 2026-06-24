@@ -42,14 +42,14 @@ export function CashflowProjectionCard({ data }: { data: ProjectionPoint[] }) {
   const lowBalanceRisk = min < 0;
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
-      <div className="px-4 pt-4 pb-2 flex items-center justify-between">
+    <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-soft">
+      <div className="px-5 pt-5 pb-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-primary/10 text-primary">
-            <Telescope className="w-3.5 h-3.5" />
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-primary/10 text-primary">
+            <Telescope className="w-4 h-4" />
           </span>
           <div>
-            <h3 className="text-sm font-semibold">Proyeksi 12 Bulan</h3>
+            <h3 className="text-base font-semibold">Proyeksi 12 Bulan</h3>
             <p className="text-[11px] text-muted-foreground mt-0.5">
               Berdasarkan saldo + transaksi berulang aktif
             </p>
@@ -57,7 +57,7 @@ export function CashflowProjectionCard({ data }: { data: ProjectionPoint[] }) {
         </div>
       </div>
 
-      <div className="px-4 pb-2 flex flex-wrap gap-2 text-[11px]">
+      <div className="px-5 pb-3 flex flex-wrap gap-2 text-[11px]">
         <span className="inline-flex items-center gap-1 rounded-full bg-muted/60 px-2 py-1">
           <span className="text-muted-foreground">Sekarang</span>
           <span className="font-semibold tabular-nums">{formatIDRCompact(start)}</span>
@@ -83,7 +83,7 @@ export function CashflowProjectionCard({ data }: { data: ProjectionPoint[] }) {
         )}
       </div>
 
-      <div className="h-56 px-1 pb-2">
+      <div className="h-60 px-2 pb-3">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
             <defs>

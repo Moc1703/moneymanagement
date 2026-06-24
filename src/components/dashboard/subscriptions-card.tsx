@@ -21,14 +21,14 @@ export function SubscriptionsCard({ subs }: { subs: DetectedSubscription[] }) {
   const top = subs.slice(0, 4);
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
-      <div className="flex items-center justify-between px-4 pt-4 pb-2">
+    <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-soft">
+      <div className="flex items-center justify-between px-5 pt-5 pb-3">
         <div className="flex items-center gap-2 min-w-0">
           <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-primary/10 text-primary shrink-0">
             <Sparkles className="w-3.5 h-3.5" />
           </span>
           <div className="min-w-0">
-            <h3 className="text-sm font-semibold">Langganan Terdeteksi</h3>
+            <h3 className="text-base font-semibold">Langganan Terdeteksi</h3>
             <p className="text-[11px] text-muted-foreground mt-0.5">
               {subs.length} item · ≈ {formatIDR(total)}/bulan
             </p>
@@ -42,7 +42,7 @@ export function SubscriptionsCard({ subs }: { subs: DetectedSubscription[] }) {
           <ArrowRight className="w-3 h-3" />
         </Link>
       </div>
-      <ul className="px-4 pb-4 space-y-2">
+      <ul className="px-5 pb-5 space-y-2">
         {top.map((s) => (
           <li
             key={s.id}
