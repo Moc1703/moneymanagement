@@ -82,7 +82,7 @@ export function ConfirmDialog({
             className={
               tone === "destructive"
                 ? "bg-rose-600 text-white hover:bg-rose-700"
-                : "gradient-brand text-white hover:opacity-90"
+                : "bg-primary text-primary-foreground hover:bg-primary/90"
             }
           >
             {isPending ? "Memproses..." : confirmLabel}

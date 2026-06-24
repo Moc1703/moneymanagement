@@ -26,6 +26,7 @@ import {
   buildExpenseByCategory,
   buildProjectSummary,
   buildSmartInsights,
+  buildBalanceSparkline,
 } from "@/lib/utils/chart-data";
 
 function greeting() {
@@ -76,6 +77,7 @@ export default async function DashboardPage() {
   const activeRules = recurringRules.filter((r) => r.active);
   const projection = buildProjection(totalBalance, activeRules, 12);
   const hasProjection = activeRules.length > 0;
+  const sparkline = buildBalanceSparkline(transactions, totalBalance, 30);
 
   return (
     <>
@@ -87,6 +89,7 @@ export default async function DashboardPage() {
             balance={totalBalance}
             monthIncome={insights.monthIncome}
             monthExpense={insights.monthExpense}
+            sparkline={sparkline}
           />
           <BalanceCards balances={balances} />
         </section>

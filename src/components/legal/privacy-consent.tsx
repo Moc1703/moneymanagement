@@ -46,7 +46,7 @@ export function PrivacyConsent() {
           <Button
             onClick={accept}
             disabled={isPending}
-            className="gradient-brand text-white hover:opacity-90 min-h-9"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 min-h-9"
             size="sm"
           >
             {isPending ? "Menyimpan…" : "Setuju & lanjut"}

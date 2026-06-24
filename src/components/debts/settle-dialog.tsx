@@ -137,7 +137,7 @@ export function SettleDialog({ debtId, counterparty, outstanding, trigger }: Pro
             type="button"
             onClick={submit}
             disabled={isPending}
-            className="gradient-brand text-white hover:opacity-90"
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
           >
             {isPending ? "Menyimpan…" : "Catat pembayaran"}
           </Button>

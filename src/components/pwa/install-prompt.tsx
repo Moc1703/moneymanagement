@@ -96,7 +96,7 @@ export function InstallPrompt() {
             <button
               type="button"
               onClick={install}
-              className="mt-2 inline-flex items-center gap-1 rounded-full gradient-brand text-white px-3 py-1.5 text-xs font-medium hover:opacity-90"
+              className="mt-2 inline-flex items-center gap-1 rounded-full bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium hover:bg-primary/90 transition-colors"
             >
               <Download className="w-3 h-3" />
               Install sekarang

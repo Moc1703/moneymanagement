@@ -146,7 +146,7 @@ function ValueRow({
         <Button
           onClick={save}
           disabled={!dirty || isPending}
-          className="min-h-11 gradient-brand text-white hover:opacity-90"
+          className="min-h-11 bg-primary text-primary-foreground hover:bg-primary/90"
         >
           <Save className="w-4 h-4" />
           Update

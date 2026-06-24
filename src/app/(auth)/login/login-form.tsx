@@ -58,7 +58,7 @@ export function LoginForm() {
       <Button
         type="submit"
         disabled={isPending}
-        className="w-full gradient-brand text-white hover:opacity-90 shadow-soft"
+        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft"
         size="lg"
       >
         {isPending ? "Memproses..." : "Masuk"}

@@ -130,7 +130,7 @@ export function LiabilityForm() {
         </div>
       </div>
 
-      <Button type="submit" disabled={isPending} className="w-full gradient-brand text-white hover:opacity-90 min-h-11">
+      <Button type="submit" disabled={isPending} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 min-h-11">
         {isPending ? "Menyimpan…" : "Tambah hutang"}
       </Button>
     </form>

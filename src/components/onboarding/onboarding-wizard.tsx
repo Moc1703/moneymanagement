@@ -122,7 +122,7 @@ export function OnboardingWizard({ accounts }: { accounts: Account[] }) {
                   onClick={saveBalances}
                   disabled={isPending}
                   size="lg"
-                  className="w-full gradient-brand text-white hover:opacity-90 min-h-11"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 min-h-11"
                 >
                   {isPending ? "Menyimpan…" : "Lanjut"}
                   <ArrowRight className="w-4 h-4" />
@@ -177,7 +177,7 @@ export function OnboardingWizard({ accounts }: { accounts: Account[] }) {
                   <Button
                     onClick={() => setStep(3)}
                     disabled={isPending}
-                    className="flex-1 gradient-brand text-white hover:opacity-90 min-h-11"
+                    className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 min-h-11"
                   >
                     Lanjut
                     <ArrowRight className="w-4 h-4" />
@@ -203,7 +203,7 @@ export function OnboardingWizard({ accounts }: { accounts: Account[] }) {
                   onClick={finish}
                   disabled={isPending}
                   size="lg"
-                  className="w-full gradient-brand text-white hover:opacity-90 min-h-11"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 min-h-11"
                 >
                   {isPending ? "Memuat…" : "Mulai pakai"}
                 </Button>

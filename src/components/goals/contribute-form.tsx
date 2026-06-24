@@ -108,7 +108,7 @@ export function ContributeForm({ goalId }: { goalId: string }) {
       <Button
         onClick={handleSubmit}
         disabled={isPending}
-        className="w-full gradient-brand text-white hover:opacity-90 min-h-11"
+        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 min-h-11"
       >
         {isPending ? "Menyimpan…" : direction === "in" ? "Tambah ke goal" : "Tarik dari goal"}
       </Button>

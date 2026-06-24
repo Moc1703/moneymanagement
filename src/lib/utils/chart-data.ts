@@ -115,6 +115,35 @@ export function buildExpenseByCategory(
     .sort((a, b) => b.value - a.value);
 }
 
+// Sparkline of running balance — last N days (default 30).
+// Walks backwards from today: starts at currentBalance and reverses each day's net.
+// Returns oldest→newest array of N+1 values.
+export function buildBalanceSparkline(
+  transactions: Transaction[],
+  currentBalance: number,
+  days: number = 30,
+): number[] {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const deltaByDay = new Map<string, number>();
+  for (const tx of transactions) {
+    const sign = tx.type === "income" ? 1 : -1;
+    deltaByDay.set(tx.date, (deltaByDay.get(tx.date) ?? 0) + sign * Number(tx.amount));
+  }
+  // Walk backward to compute past balances
+  const values: number[] = [currentBalance];
+  let running = currentBalance;
+  for (let i = 0; i < days; i++) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const key = format(d, "yyyy-MM-dd");
+    const delta = deltaByDay.get(key) ?? 0;
+    running -= delta;
+    values.push(running);
+  }
+  return values.reverse();
+}
+
 // Smart insights — computed entirely client-side from existing transactions.
 export type SmartInsights = {
   monthIncome: number;

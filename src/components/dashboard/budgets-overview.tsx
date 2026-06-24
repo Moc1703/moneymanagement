@@ -27,7 +27,7 @@ export function BudgetsOverview({ budgets, categoryMap }: Props) {
             <p className="text-xs text-muted-foreground mt-1">Set limit kategori biar pengeluaran terkontrol.</p>
             <Link
               href="/settings/budgets"
-              className="mt-3 inline-flex items-center gap-1 rounded-full gradient-brand text-white px-3 py-1.5 text-xs font-medium"
+              className="mt-3 inline-flex items-center gap-1 rounded-full bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium hover:bg-primary/90 transition-colors"
             >
               Set Kantong
             </Link>

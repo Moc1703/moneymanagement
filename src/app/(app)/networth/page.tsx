@@ -42,7 +42,7 @@ export default async function NetWorthPage() {
       <TopBar title="Net Worth" subtitle={formatIDR(netWorth)} />
       <div className="p-4 md:p-6 max-w-3xl mx-auto space-y-5">
         {/* Net worth hero */}
-        <div className="relative overflow-hidden rounded-3xl gradient-brand text-white shadow-soft-lg p-6">
+        <div className="relative overflow-hidden rounded-3xl gradient-hero text-white shadow-hero p-7">
           <div className="flex items-center gap-2 text-[11px] font-medium tracking-wide uppercase text-white/85">
             <Scale className="w-3.5 h-3.5" />
             Total Net Worth

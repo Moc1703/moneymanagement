@@ -33,7 +33,7 @@ export function BottomNav() {
                 className="flex items-center justify-center"
                 aria-label={item.label}
               >
-                <span className="flex items-center justify-center w-14 h-14 -mt-6 rounded-full gradient-brand text-white shadow-soft-lg ring-4 ring-card">
+                <span className="flex items-center justify-center w-14 h-14 -mt-6 rounded-full gradient-positive text-white shadow-soft-lg ring-4 ring-background">
                   <Icon className="w-6 h-6" strokeWidth={2.5} />
                 </span>
               </Link>
