@@ -9,6 +9,7 @@ import { InsightsStrip } from "@/components/dashboard/insights-strip";
 import { BudgetsOverview } from "@/components/dashboard/budgets-overview";
 import { GoalsOverview } from "@/components/dashboard/goals-overview";
 import { SubscriptionsCard } from "@/components/dashboard/subscriptions-card";
+import { QuickActions } from "@/components/dashboard/quick-actions";
 import { CashflowProjectionCard } from "@/components/dashboard/cashflow-projection-card";
 import { getAccounts } from "@/actions/accounts";
 import { getCategories } from "@/actions/categories";
@@ -92,6 +93,11 @@ export default async function DashboardPage() {
             sparkline={sparkline}
           />
           <BalanceCards balances={balances} />
+        </section>
+
+        {/* QUICK ACTIONS — discoverability untuk semua fitur */}
+        <section>
+          <QuickActions />
         </section>
 
         {/* INSIGHT — quick chips */}
