@@ -15,7 +15,7 @@ export default async function AccountsPage() {
     <>
       <TopBar title="Rekening" />
       <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-4">
-        <Link href="/settings" className="inline-flex items-center gap-1 text-sm text-slate-600 hover:text-slate-900">
+        <Link href="/settings" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft className="w-4 h-4" />
           Kembali
         </Link>
@@ -32,7 +32,7 @@ export default async function AccountsPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium truncate">{account.name}</p>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-muted-foreground">
                     {account.type === "business" ? "Usaha" : "Pribadi"} · Saldo awal {formatIDR(account.initial_balance)}
                   </p>
                 </div>
@@ -41,8 +41,8 @@ export default async function AccountsPage() {
           ))}
         </div>
 
-        <div className="border-t border-slate-200 pt-4 mt-6">
-          <h2 className="text-sm font-semibold text-slate-700 mb-3">Edit Rekening</h2>
+        <div className="border-t border-border pt-4 mt-6">
+          <h2 className="text-sm font-semibold text-foreground mb-3">Edit Rekening</h2>
           {accounts.map((account) => (
             <AccountForm
               key={account.id}

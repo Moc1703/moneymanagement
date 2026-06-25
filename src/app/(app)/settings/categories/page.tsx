@@ -15,7 +15,7 @@ export default async function CategoriesPage() {
     <>
       <TopBar title="Kategori" />
       <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-4">
-        <Link href="/settings" className="inline-flex items-center gap-1 text-sm text-slate-600 hover:text-slate-900">
+        <Link href="/settings" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft className="w-4 h-4" />
           Kembali
         </Link>
@@ -38,7 +38,7 @@ export default async function CategoriesPage() {
               />
             ))}
             <details className="group">
-              <summary className="flex items-center gap-2 cursor-pointer p-3 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg border border-dashed border-slate-300">
+              <summary className="flex items-center gap-2 cursor-pointer p-3 text-sm font-medium text-foreground hover:bg-muted rounded-lg border border-dashed border-border">
                 <Plus className="w-4 h-4" />
                 Tambah Kategori Pengeluaran
               </summary>
@@ -60,7 +60,7 @@ export default async function CategoriesPage() {
               />
             ))}
             <details className="group">
-              <summary className="flex items-center gap-2 cursor-pointer p-3 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-lg border border-dashed border-slate-300">
+              <summary className="flex items-center gap-2 cursor-pointer p-3 text-sm font-medium text-foreground hover:bg-muted rounded-lg border border-dashed border-border">
                 <Plus className="w-4 h-4" />
                 Tambah Kategori Pemasukan
               </summary>

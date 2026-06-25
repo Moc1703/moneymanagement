@@ -64,7 +64,7 @@ export function AccountForm({
           {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </button>
         {open && (
-          <form action={handleSubmit} className="px-4 pb-4 space-y-3 border-t border-slate-100 pt-3">
+          <form action={handleSubmit} className="px-4 pb-4 space-y-3 border-t border-border/70 pt-3">
             <input type="hidden" name="type" value={account.type} />
 
             <div className="space-y-1">
@@ -75,7 +75,7 @@ export function AccountForm({
             <div className="space-y-1">
               <Label htmlFor={`balance-${account.id}`}>Saldo Awal</Label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500">Rp</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">Rp</span>
                 <Input
                   id={`balance-${account.id}`}
                   value={displayBalance}
@@ -87,7 +87,7 @@ export function AccountForm({
                   className="pl-10"
                 />
               </div>
-              <p className="text-xs text-slate-500">Saldo saat ini dihitung otomatis dari transaksi</p>
+              <p className="text-xs text-muted-foreground">Saldo saat ini dihitung otomatis dari transaksi</p>
             </div>
 
             <div className="space-y-1">
@@ -103,7 +103,7 @@ export function AccountForm({
                       className="sr-only peer"
                     />
                     <div
-                      className="w-8 h-8 rounded-full ring-2 ring-transparent peer-checked:ring-slate-900 peer-checked:ring-offset-2 transition"
+                      className="w-8 h-8 rounded-full ring-2 ring-transparent peer-checked:ring-primary peer-checked:ring-offset-2 transition"
                       style={{ backgroundColor: c }}
                     />
                   </label>
@@ -123,7 +123,7 @@ export function AccountForm({
                       defaultChecked={account.icon === i}
                       className="sr-only peer"
                     />
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xl ring-2 ring-transparent peer-checked:ring-slate-900 peer-checked:bg-slate-100 transition">
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xl ring-2 ring-transparent peer-checked:ring-primary peer-checked:bg-muted transition">
                       {i}
                     </div>
                   </label>

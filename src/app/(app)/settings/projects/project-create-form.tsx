@@ -53,7 +53,7 @@ export function ProjectCreateForm({
                   type="button"
                   onClick={() => setColor(c)}
                   className={`w-7 h-7 rounded-full ring-2 ring-offset-2 transition ${
-                    color === c ? "ring-slate-900" : "ring-transparent"
+                    color === c ? "ring-primary" : "ring-transparent"
                   }`}
                   style={{ backgroundColor: c }}
                 />

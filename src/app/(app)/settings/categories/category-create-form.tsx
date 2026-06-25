@@ -56,7 +56,7 @@ export function CategoryCreateForm({
                   type="button"
                   onClick={() => setIcon(i)}
                   className={`w-9 h-9 rounded-lg flex items-center justify-center text-lg transition ${
-                    icon === i ? "bg-slate-900 text-white" : "bg-slate-100 hover:bg-slate-200"
+                    icon === i ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-accent"
                   }`}
                 >
                   {i}
@@ -74,7 +74,7 @@ export function CategoryCreateForm({
                   type="button"
                   onClick={() => setColor(c)}
                   className={`w-7 h-7 rounded-full ring-2 ring-offset-2 transition ${
-                    color === c ? "ring-slate-900" : "ring-transparent"
+                    color === c ? "ring-primary" : "ring-transparent"
                   }`}
                   style={{ backgroundColor: c }}
                 />

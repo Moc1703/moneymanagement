@@ -15,10 +15,13 @@ export default async function TransfersPage() {
       <TopBar title="Transfer" />
       <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-6">
         <TransferForm accounts={accounts} />
-        <div>
-          <h2 className="text-sm font-semibold text-slate-700 mb-3">Riwayat Transfer</h2>
+        <section>
+          <h2 className="text-base md:text-lg font-extrabold tracking-tight inline-flex items-center gap-2 mb-3">
+            <span aria-hidden className="block h-5 w-1 rounded-full bg-primary" />
+            Riwayat Transfer
+          </h2>
           <TransferList transfers={transfers} />
-        </div>
+        </section>
       </div>
     </>
   );

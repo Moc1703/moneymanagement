@@ -58,11 +58,11 @@ export function CategoryForm({
             {category.icon}
           </span>
           <span className="flex-1 font-medium text-sm">{category.name}</span>
-          {category.is_default && <Lock className="w-3 h-3 text-slate-400" />}
+          {category.is_default && <Lock className="w-3 h-3 text-muted-foreground" />}
           {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </button>
         {open && (
-          <form action={handleSubmit} className="px-3 pb-3 space-y-3 border-t border-slate-100 pt-3">
+          <form action={handleSubmit} className="px-3 pb-3 space-y-3 border-t border-border/70 pt-3">
             <div className="space-y-1">
               <Label htmlFor={`cat-name-${category.id}`}>Nama</Label>
               <Input id={`cat-name-${category.id}`} name="name" defaultValue={category.name} required disabled={category.is_default} />
@@ -82,7 +82,7 @@ export function CategoryForm({
                       disabled={category.is_default}
                     />
                     <div
-                      className="w-7 h-7 rounded-full ring-2 ring-transparent peer-checked:ring-slate-900 peer-checked:ring-offset-2 transition"
+                      className="w-7 h-7 rounded-full ring-2 ring-transparent peer-checked:ring-primary peer-checked:ring-offset-2 transition"
                       style={{ backgroundColor: c }}
                     />
                   </label>
@@ -110,7 +110,7 @@ export function CategoryForm({
               )}
             </div>
             {category.is_default && (
-              <p className="text-xs text-slate-500 flex items-center gap-1">
+              <p className="text-xs text-muted-foreground flex items-center gap-1">
                 <Lock className="w-3 h-3" /> Kategori default tidak bisa diedit/dihapus
               </p>
             )}

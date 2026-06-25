@@ -59,11 +59,11 @@ export function ProjectForm({
             style={{ backgroundColor: project.color }}
           />
           <span className="flex-1 font-medium text-sm">{project.name}</span>
-          {project.is_default && <Lock className="w-3 h-3 text-slate-400" />}
+          {project.is_default && <Lock className="w-3 h-3 text-muted-foreground" />}
           {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </button>
         {open && (
-          <form action={handleSubmit} className="px-3 pb-3 space-y-3 border-t border-slate-100 pt-3">
+          <form action={handleSubmit} className="px-3 pb-3 space-y-3 border-t border-border/70 pt-3">
             <div className="space-y-1">
               <Label htmlFor={`proj-name-${project.id}`}>Nama</Label>
               <Input
@@ -94,7 +94,7 @@ export function ProjectForm({
                     type="button"
                     onClick={() => setColor(c)}
                     className={`w-7 h-7 rounded-full ring-2 ring-offset-2 transition ${
-                      color === c ? "ring-slate-900" : "ring-transparent"
+                      color === c ? "ring-primary" : "ring-transparent"
                     }`}
                     style={{ backgroundColor: c }}
                   />
@@ -129,7 +129,7 @@ export function ProjectForm({
               )}
             </div>
             {project.is_default && (
-              <p className="text-xs text-slate-500 flex items-center gap-1">
+              <p className="text-xs text-muted-foreground flex items-center gap-1">
                 <Lock className="w-3 h-3" /> Project Umum tidak bisa diedit/dihapus
               </p>
             )}
