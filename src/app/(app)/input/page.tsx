@@ -11,23 +11,24 @@ export default async function InputPage() {
     getAccounts(),
     getCategories(),
     getProjects(),
-    getTransactions({ limit: 20 }),
+    getTransactions({ limit: 10 }),
   ]);
 
   return (
     <>
-      <TopBar title="Input Transaksi" />
+      <TopBar title="Catat Transaksi" />
       <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-6">
-        <TransactionForm
-          accounts={accounts}
-          categories={categories}
-          projects={projects}
-        />
+        <TransactionForm accounts={accounts} categories={categories} projects={projects} />
 
-        <div>
-          <h2 className="text-sm font-semibold text-slate-700 mb-3">Transaksi Terbaru</h2>
-          <TransactionList transactions={recent} compact />
-        </div>
+        <section>
+          <h2 className="text-base md:text-lg font-extrabold tracking-tight inline-flex items-center gap-2 mb-3">
+            <span aria-hidden className="block h-5 w-1 rounded-full bg-primary" />
+            Transaksi Terbaru
+          </h2>
+          <div className="rounded-3xl border border-border bg-card shadow-soft px-2 py-1">
+            <TransactionList transactions={recent} compact />
+          </div>
+        </section>
       </div>
     </>
   );
