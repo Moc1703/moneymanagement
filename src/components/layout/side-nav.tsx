@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Plus, BarChart3, ArrowLeftRight, Settings, LogOut, Sparkles, Target, HandCoins, Scale } from "lucide-react";
+import { Home, Plus, BarChart3, ArrowLeftRight, Settings, LogOut, Target, HandCoins, Scale } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "@/actions/auth";
+import { AppLogoLockup } from "@/components/brand/app-logo";
 
 const navItems = [
   { href: "/dashboard", label: "Beranda", icon: Home },
@@ -22,14 +23,8 @@ export function SideNav() {
 
   return (
     <aside className="hidden md:flex md:flex-col md:w-64 md:fixed md:inset-y-0 md:border-r md:border-sidebar-border md:bg-sidebar">
-      <div className="flex items-center gap-2.5 px-5 h-16 border-b border-sidebar-border">
-        <div className="flex items-center justify-center w-10 h-10 rounded-xl gradient-brand text-white shadow-soft">
-          <Sparkles className="w-5 h-5" strokeWidth={2.5} />
-        </div>
-        <div className="leading-tight">
-          <span className="block font-bold tracking-tight">Money Mgmt</span>
-          <span className="block text-[11px] text-muted-foreground">Smart cashflow</span>
-        </div>
+      <div className="flex items-center px-5 h-16 border-b border-sidebar-border">
+        <AppLogoLockup size="sm" />
       </div>
       <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
         {navItems.map((item) => {

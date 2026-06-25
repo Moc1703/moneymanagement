@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Download, X, Share } from "lucide-react";
+import { X, Share, Download } from "lucide-react";
+import { AppLogo } from "@/components/brand/app-logo";
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -78,9 +79,7 @@ export function InstallPrompt() {
   return (
     <div className="fixed bottom-24 md:bottom-6 left-3 right-3 md:left-auto md:right-6 md:max-w-sm z-[55] animate-in slide-in-from-bottom-3">
       <div className="rounded-2xl bg-card border border-border shadow-soft-lg p-3 flex items-start gap-3">
-        <span className="flex items-center justify-center w-10 h-10 rounded-xl gradient-brand text-white shrink-0">
-          <Download className="w-4 h-4" strokeWidth={2.5} />
-        </span>
+        <AppLogo size={40} className="shrink-0" />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold">Install Money Management</p>
           {deferred ? (

@@ -3,7 +3,8 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ArrowRight, Check, Sparkles, Wallet, BarChart3, Plus } from "lucide-react";
+import { ArrowRight, Check, Wallet, BarChart3, Plus } from "lucide-react";
+import { AppLogo } from "@/components/brand/app-logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -58,14 +59,14 @@ export function OnboardingWizard({ accounts }: { accounts: Account[] }) {
     <div className="fixed inset-0 z-[60] bg-background/95 overflow-y-auto">
       <div className="min-h-full flex flex-col p-4 sm:p-8">
         <div className="w-full max-w-md mx-auto flex-1 flex flex-col">
-          <header className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl gradient-brand text-white shadow-soft-lg mb-3">
-              <Sparkles className="w-6 h-6" strokeWidth={2.5} />
+          <header className="text-center mb-6 space-y-3">
+            <div className="flex justify-center">
+              <AppLogo size={56} />
             </div>
-            <h1 className="text-xl font-bold tracking-tight">
-              <span className="gradient-text">Selamat datang</span> di Money Management
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">3 langkah singkat biar lo siap pakai</p>
+            <div>
+              <h1 className="text-2xl font-extrabold tracking-tight">Selamat datang 👋</h1>
+              <p className="text-sm text-muted-foreground mt-1">3 langkah singkat biar lo siap pakai</p>
+            </div>
           </header>
 
           <div className="flex items-center justify-center gap-2 mb-6">

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft, Shield } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import { AppLogo } from "@/components/brand/app-logo";
 
 export const metadata = {
   title: "Kebijakan Privasi — Money Management",
@@ -21,11 +22,9 @@ export default function PrivacyPage() {
       </header>
       <main className="max-w-2xl mx-auto px-4 py-8 md:py-10">
         <div className="flex items-center gap-3 mb-6">
-          <span className="flex items-center justify-center w-12 h-12 rounded-2xl gradient-brand text-white shadow-soft">
-            <Shield className="w-6 h-6" strokeWidth={2.5} />
-          </span>
+          <AppLogo size={48} />
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Kebijakan Privasi</h1>
+            <h1 className="text-2xl font-extrabold tracking-tight">Kebijakan Privasi</h1>
             <p className="text-xs text-muted-foreground">Terakhir diperbarui: 24 Juni 2026</p>
           </div>
         </div>

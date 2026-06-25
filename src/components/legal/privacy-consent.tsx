@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AppLogo } from "@/components/brand/app-logo";
 import { acceptPrivacyPolicy } from "@/actions/profile";
 
 export function PrivacyConsent() {
@@ -24,11 +25,12 @@ export function PrivacyConsent() {
     <div className="fixed inset-x-3 bottom-24 md:bottom-6 md:left-auto md:right-6 md:max-w-md z-[55]">
       <div className="rounded-2xl bg-card border border-border shadow-soft-lg p-4 space-y-3">
         <div className="flex items-start gap-3">
-          <span className="flex items-center justify-center w-10 h-10 rounded-xl gradient-brand text-white shrink-0">
-            <Shield className="w-4 h-4" strokeWidth={2.5} />
-          </span>
+          <AppLogo size={40} className="shrink-0" />
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold">Persetujuan privasi (UU PDP)</p>
+            <p className="text-sm font-semibold flex items-center gap-1.5">
+              <Shield className="w-3.5 h-3.5 text-primary" />
+              Persetujuan privasi (UU PDP)
+            </p>
             <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
               App ini cuma simpan data keuangan yang lo input sendiri — gak terhubung ke
               bank, gak ada iklan, gak dibagiin ke pihak ketiga. Lo bisa hapus akun + semua

@@ -21,11 +21,16 @@ export default async function AccountPage() {
         {/* Profile */}
         <section className="rounded-2xl border border-border bg-card shadow-soft p-5 space-y-3">
           <div className="flex items-center gap-3">
-            <span className="flex items-center justify-center w-12 h-12 rounded-2xl gradient-brand text-white text-xl font-bold">
+            <span
+              className="flex items-center justify-center w-12 h-12 rounded-2xl text-xl font-extrabold text-white"
+              style={{
+                backgroundImage: "var(--gradient-brand)",
+              }}
+            >
               {(profile?.display_name || "K")[0].toUpperCase()}
             </span>
             <div className="min-w-0">
-              <p className="font-semibold">{profile?.display_name ?? "Pengguna"}</p>
+              <p className="font-bold text-base">{profile?.display_name ?? "Pengguna"}</p>
               <p className="text-xs text-muted-foreground inline-flex items-center gap-1 truncate">
                 <Mail className="w-3 h-3" />
                 {user?.email ?? "—"}

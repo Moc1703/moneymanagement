@@ -40,8 +40,9 @@ function greeting() {
 
 function SectionTitle({ children, action }: { children: React.ReactNode; action?: React.ReactNode }) {
   return (
-    <div className="flex items-end justify-between mb-3">
-      <h2 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+    <div className="flex items-center justify-between mb-3 md:mb-4">
+      <h2 className="text-base md:text-lg font-extrabold tracking-tight inline-flex items-center gap-2">
+        <span aria-hidden className="block h-5 w-1 rounded-full bg-primary" />
         {children}
       </h2>
       {action}
@@ -89,7 +90,7 @@ export default async function DashboardPage() {
             <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground font-semibold">
               {new Date().toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long" })}
             </p>
-            <h1 className="mt-1 text-xl md:text-2xl font-bold tracking-tight">
+            <h1 className="mt-1 text-2xl md:text-3xl font-extrabold tracking-tight">
               {greeting()} <span className="inline-block">👋</span>
             </h1>
           </div>
