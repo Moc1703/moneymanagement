@@ -1,10 +1,9 @@
 import type { AccountType, CategoryType } from "./types";
 
-// Default accounts (seeded by handle_new_user trigger)
+// Default starter account (seeded by handle_new_user trigger).
+// User can add more / rename / archive via Settings → Rekening.
 export const DEFAULT_ACCOUNTS = [
-  { name: "Rekening Istri", type: "personal" as AccountType, color: "#ec4899", icon: "👩" },
-  { name: "Rekening Pribadi", type: "personal" as AccountType, color: "#3b82f6", icon: "🧑" },
-  { name: "Rekening Usaha", type: "business" as AccountType, color: "#10b981", icon: "🏪" },
+  { name: "Rekening Utama", type: "personal" as AccountType, color: "#7c3aed", icon: "💼" },
 ];
 
 type SeedCategory = { name: string; type: CategoryType; icon: string; color: string };
