@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Plus } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { TopBar } from "@/components/layout/top-bar";
 import { getCategories, createCategory, deleteCategory } from "@/actions/categories";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,20 +13,33 @@ export default async function CategoriesPage() {
 
   return (
     <>
-      <TopBar title="Kategori" />
-      <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-4">
-        <Link href="/settings" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-          <ArrowLeft className="w-4 h-4" />
-          Kembali
+      <TopBar title="Kategori" subtitle={`${categories.length} kategori`} />
+      <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-5">
+        <Link
+          href="/settings"
+          className="inline-flex items-center gap-1 text-xs font-semibold text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          Kembali ke Lainnya
         </Link>
 
         <Tabs defaultValue="expense">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="expense">Pengeluaran</TabsTrigger>
-            <TabsTrigger value="income">Pemasukan</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 h-12 p-1 rounded-2xl bg-muted">
+            <TabsTrigger
+              value="expense"
+              className="rounded-xl text-sm font-semibold data-[state=active]:bg-rose-500 data-[state=active]:text-white data-[state=active]:shadow-soft"
+            >
+              Pengeluaran
+            </TabsTrigger>
+            <TabsTrigger
+              value="income"
+              className="rounded-xl text-sm font-semibold data-[state=active]:bg-emerald-500 data-[state=active]:text-white data-[state=active]:shadow-soft"
+            >
+              Pemasukan
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="expense" className="space-y-2 mt-4">
+          <TabsContent value="expense" className="space-y-2.5 mt-4">
             {expense.map((cat) => (
               <CategoryForm
                 key={cat.id}
@@ -37,18 +50,10 @@ export default async function CategoriesPage() {
                 }}
               />
             ))}
-            <details className="group">
-              <summary className="flex items-center gap-2 cursor-pointer p-3 text-sm font-medium text-foreground hover:bg-muted rounded-lg border border-dashed border-border">
-                <Plus className="w-4 h-4" />
-                Tambah Kategori Pengeluaran
-              </summary>
-              <div className="mt-2">
-                <CategoryCreateForm type="expense" action={createCategory} />
-              </div>
-            </details>
+            <CategoryCreateForm type="expense" action={createCategory} />
           </TabsContent>
 
-          <TabsContent value="income" className="space-y-2 mt-4">
+          <TabsContent value="income" className="space-y-2.5 mt-4">
             {income.map((cat) => (
               <CategoryForm
                 key={cat.id}
@@ -59,15 +64,7 @@ export default async function CategoriesPage() {
                 }}
               />
             ))}
-            <details className="group">
-              <summary className="flex items-center gap-2 cursor-pointer p-3 text-sm font-medium text-foreground hover:bg-muted rounded-lg border border-dashed border-border">
-                <Plus className="w-4 h-4" />
-                Tambah Kategori Pemasukan
-              </summary>
-              <div className="mt-2">
-                <CategoryCreateForm type="income" action={createCategory} />
-              </div>
-            </details>
+            <CategoryCreateForm type="income" action={createCategory} />
           </TabsContent>
         </Tabs>
       </div>

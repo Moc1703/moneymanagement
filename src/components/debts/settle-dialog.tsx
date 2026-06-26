@@ -72,32 +72,35 @@ export function SettleDialog({ debtId, counterparty, outstanding, trigger }: Pro
       <DialogContent showCloseButton={false}>
         <DialogHeader>
           <div className="flex items-start gap-3">
-            <span className="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 shrink-0">
-              <Check className="w-5 h-5" />
+            <span className="flex items-center justify-center w-12 h-12 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 ring-1 ring-inset ring-emerald-500/30 shrink-0">
+              <Check className="w-5 h-5" strokeWidth={2.5} />
             </span>
             <div className="min-w-0">
-              <DialogTitle>Bayar / Terima pembayaran</DialogTitle>
-              <DialogDescription className="mt-1">
-                {counterparty} · sisa <span className="font-semibold tabular-nums">{formatIDR(outstanding)}</span>
+              <DialogTitle className="text-base font-extrabold tracking-tight">Catat Pembayaran</DialogTitle>
+              <DialogDescription className="mt-0.5 text-xs">
+                <span className="font-semibold">{counterparty}</span> · sisa{" "}
+                <span className="font-bold tabular-nums">{formatIDR(outstanding)}</span>
               </DialogDescription>
             </div>
           </div>
         </DialogHeader>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
-              <Label htmlFor="pay-amount">Nominal</Label>
+              <Label htmlFor="pay-amount" className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+                Nominal
+              </Label>
               <button
                 type="button"
                 onClick={payAll}
-                className="text-[11px] font-medium text-primary hover:underline"
+                className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline"
               >
-                Lunasin semua
+                ✓ Lunasin semua
               </button>
             </div>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">Rp</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground font-semibold">Rp</span>
               <Input
                 id="pay-amount"
                 value={amount}
@@ -113,11 +116,15 @@ export function SettleDialog({ debtId, counterparty, outstanding, trigger }: Pro
 
           <div className="grid grid-cols-2 gap-2">
             <div className="space-y-1.5">
-              <Label htmlFor="pay-date">Tanggal</Label>
+              <Label htmlFor="pay-date" className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+                Tanggal
+              </Label>
               <Input id="pay-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} className="min-h-11" />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="pay-note">Catatan</Label>
+              <Label htmlFor="pay-note" className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+                Catatan
+              </Label>
               <Input
                 id="pay-note"
                 value={note}
@@ -133,12 +140,7 @@ export function SettleDialog({ debtId, counterparty, outstanding, trigger }: Pro
           <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={isPending}>
             Batal
           </Button>
-          <Button
-            type="button"
-            onClick={submit}
-            disabled={isPending}
-            className="bg-primary text-primary-foreground hover:bg-primary/90"
-          >
+          <Button type="button" onClick={submit} disabled={isPending} variant="positive">
             {isPending ? "Menyimpan…" : "Catat pembayaran"}
           </Button>
         </DialogFooter>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Plus } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { TopBar } from "@/components/layout/top-bar";
 import { getProjects, createProject, archiveProject } from "@/actions/projects";
 import { ProjectForm } from "./project-form";
@@ -11,39 +11,52 @@ export default async function ProjectsPage() {
 
   return (
     <>
-      <TopBar title="Project" />
-      <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-4">
-        <Link href="/settings" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-          <ArrowLeft className="w-4 h-4" />
-          Kembali
+      <TopBar title="Project" subtitle={`${active.length} project aktif`} />
+      <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-5">
+        <Link
+          href="/settings"
+          className="inline-flex items-center gap-1 text-xs font-semibold text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          Kembali ke Lainnya
         </Link>
 
-        <p className="text-sm text-muted-foreground">
-          Track transaksi per project usaha. Project "Umum" adalah default untuk transaksi non-project.
-        </p>
-
-        <div className="space-y-2">
-          {active.map((project) => (
-            <ProjectForm
-              key={project.id}
-              project={project}
-              onArchive={async () => {
-                "use server";
-                return archiveProject(project.id);
-              }}
-            />
-          ))}
+        <div className="rounded-2xl bg-primary/5 border border-primary/15 p-4">
+          <p className="text-sm font-bold text-foreground">Cara kerja Project</p>
+          <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+            Track transaksi per project usaha (mis. Klien A, Renovasi rumah).
+            Project &quot;Umum&quot; jadi default buat transaksi non-project — gak bisa
+            dihapus.
+          </p>
         </div>
 
-        <details className="group">
-          <summary className="flex items-center gap-2 cursor-pointer p-3 text-sm font-medium text-foreground hover:bg-muted rounded-lg border border-dashed border-border">
-            <Plus className="w-4 h-4" />
+        <section>
+          <h2 className="text-base md:text-lg font-extrabold tracking-tight inline-flex items-center gap-2 mb-3">
+            <span aria-hidden className="block h-5 w-1 rounded-full bg-primary" />
+            Project Aktif
+          </h2>
+          <ul className="space-y-2.5">
+            {active.map((project) => (
+              <li key={project.id}>
+                <ProjectForm
+                  project={project}
+                  onArchive={async () => {
+                    "use server";
+                    return archiveProject(project.id);
+                  }}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="text-base md:text-lg font-extrabold tracking-tight inline-flex items-center gap-2 mb-3">
+            <span aria-hidden className="block h-5 w-1 rounded-full bg-primary" />
             Tambah Project
-          </summary>
-          <div className="mt-2">
-            <ProjectCreateForm action={createProject} />
-          </div>
-        </details>
+          </h2>
+          <ProjectCreateForm action={createProject} />
+        </section>
       </div>
     </>
   );
