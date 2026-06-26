@@ -32,25 +32,31 @@ export function DebtForm({ defaultDirection = "owe" }: { defaultDirection?: "owe
   }
 
   return (
-    <form action={onSubmit} className="rounded-3xl bg-card border border-border shadow-soft p-5 space-y-4">
-      <div className="flex items-center gap-2">
-        <span className="flex items-center justify-center w-9 h-9 rounded-xl gradient-brand text-white">
-          <HandCoins className="w-4 h-4" strokeWidth={2.5} />
+    <form action={onSubmit} className="rounded-3xl bg-card border border-border shadow-soft p-5 space-y-5">
+      <div className="flex items-center gap-3">
+        <span
+          className={`flex items-center justify-center w-12 h-12 rounded-2xl text-2xl ring-1 ring-inset ${
+            direction === "owe"
+              ? "bg-rose-500/15 text-rose-600 dark:text-rose-300 ring-rose-500/30"
+              : "bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 ring-emerald-500/30"
+          }`}
+        >
+          <HandCoins className="w-5 h-5" strokeWidth={2.25} />
         </span>
         <div>
-          <h3 className="text-sm font-semibold">Catat hutang / piutang</h3>
+          <h3 className="text-base font-extrabold tracking-tight">Catat hutang/piutang</h3>
           <p className="text-[11px] text-muted-foreground">Pinjam ke orang atau dipinjam</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-1.5">
         <button
           type="button"
           onClick={() => setDirection("owe")}
-          className={`min-h-11 rounded-xl text-sm font-medium transition-colors ${
+          className={`min-h-12 rounded-xl text-sm font-semibold transition-all ${
             direction === "owe"
-              ? "bg-rose-500/15 text-rose-700 dark:text-rose-300 ring-1 ring-rose-500/30"
-              : "bg-muted text-muted-foreground"
+              ? "bg-rose-500 text-white shadow-soft"
+              : "bg-muted text-foreground/80 hover:bg-accent"
           }`}
         >
           Saya pinjam
@@ -58,10 +64,10 @@ export function DebtForm({ defaultDirection = "owe" }: { defaultDirection?: "owe
         <button
           type="button"
           onClick={() => setDirection("lent")}
-          className={`min-h-11 rounded-xl text-sm font-medium transition-colors ${
+          className={`min-h-12 rounded-xl text-sm font-semibold transition-all ${
             direction === "lent"
-              ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 ring-1 ring-emerald-500/30"
-              : "bg-muted text-muted-foreground"
+              ? "bg-emerald-500 text-white shadow-soft"
+              : "bg-muted text-foreground/80 hover:bg-accent"
           }`}
         >
           Dipinjam
@@ -69,14 +75,18 @@ export function DebtForm({ defaultDirection = "owe" }: { defaultDirection?: "owe
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="counterparty">{direction === "owe" ? "Pinjam ke" : "Dipinjam oleh"}</Label>
+        <Label htmlFor="counterparty" className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+          {direction === "owe" ? "Pinjam ke" : "Dipinjam oleh"}
+        </Label>
         <Input id="counterparty" name="counterparty" placeholder="Nama orang" required className="min-h-11" />
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="principal">Nominal</Label>
+        <Label htmlFor="principal" className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+          Nominal
+        </Label>
         <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">Rp</span>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground font-semibold">Rp</span>
           <Input
             id="principal"
             value={principal}
@@ -94,17 +104,21 @@ export function DebtForm({ defaultDirection = "owe" }: { defaultDirection?: "owe
 
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1.5">
-          <Label htmlFor="due_date">Jatuh tempo (opsional)</Label>
+          <Label htmlFor="due_date" className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+            Jatuh tempo
+          </Label>
           <Input id="due_date" name="due_date" type="date" className="min-h-11" />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="note">Catatan</Label>
+          <Label htmlFor="note" className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+            Catatan
+          </Label>
           <Input id="note" name="note" placeholder="Opsional" className="min-h-11" />
         </div>
       </div>
 
-      <Button type="submit" disabled={isPending} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 min-h-11">
-        {isPending ? "Menyimpan…" : "Simpan"}
+      <Button type="submit" disabled={isPending} size="lg" className="w-full">
+        {isPending ? "Menyimpan…" : "Simpan catatan"}
       </Button>
     </form>
   );

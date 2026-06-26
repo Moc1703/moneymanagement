@@ -3,25 +3,34 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Sparkles } from "lucide-react";
+import { Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 import { createGoal } from "@/actions/goals";
 import { parseIDR } from "@/lib/utils/format";
 import type { Account } from "@/lib/types";
 
-const COLOR_OPTIONS = ["#7c3aed", "#06b6d4", "#10b981", "#f59e0b", "#ec4899", "#3b82f6", "#ef4444", "#8b5cf6"];
-const ICON_OPTIONS = ["🎯", "🏠", "🚗", "🛵", "✈️", "🎓", "💍", "🐐", "📱", "💻", "🪙", "🎂"];
+const COLOR_OPTIONS = [
+  "#7c3aed", "#06b6d4", "#10b981", "#f59e0b",
+  "#ec4899", "#3b82f6", "#ef4444", "#8b5cf6", "#14b8a6", "#f43f5e",
+];
+const ICON_OPTIONS = [
+  "🎯", "🏠", "🚗", "🛵", "✈️", "🎓",
+  "💍", "🐐", "📱", "💻", "🪙", "🎂",
+];
 
 export function GoalForm({ accounts }: { accounts: Account[] }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [color, setColor] = useState(COLOR_OPTIONS[0]);
   const [icon, setIcon] = useState(ICON_OPTIONS[0]);
 
   function onSubmit(formData: FormData) {
+    formData.set("name", name);
     formData.set("target_amount", String(parseIDR(amount || "0")));
     formData.set("color", color);
     formData.set("icon", icon);
@@ -39,27 +48,53 @@ export function GoalForm({ accounts }: { accounts: Account[] }) {
   return (
     <form
       action={onSubmit}
-      className="rounded-3xl bg-card border border-border shadow-soft p-5 space-y-4"
+      className="rounded-3xl bg-card border border-border shadow-soft p-5 space-y-5"
     >
-      <div className="flex items-center gap-2">
-        <span className="flex items-center justify-center w-9 h-9 rounded-xl gradient-brand text-white">
-          <Sparkles className="w-4 h-4" strokeWidth={2.5} />
+      <div className="flex items-center gap-3">
+        <span
+          className="flex items-center justify-center w-12 h-12 rounded-2xl text-2xl ring-1 ring-inset"
+          style={{
+            backgroundColor: `${color}1F`,
+            color: color,
+            boxShadow: `inset 0 0 0 1px ${color}33`,
+          }}
+        >
+          {icon}
         </span>
         <div>
-          <h3 className="text-sm font-semibold">Goal baru</h3>
-          <p className="text-[11px] text-muted-foreground">Tabungan dengan target tanggal</p>
+          <h3 className="text-base font-extrabold tracking-tight">Bikin goal baru</h3>
+          <p className="text-[11px] text-muted-foreground inline-flex items-center gap-1">
+            <Target className="w-3 h-3" />
+            Tabungan dengan target nominal & tanggal
+          </p>
         </div>
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="name">Nama goal</Label>
-        <Input id="name" name="name" placeholder="Liburan Bali, DP rumah, dll" required className="min-h-11" />
+        <Label htmlFor="name" className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+          Nama goal
+        </Label>
+        <Input
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Liburan Bali, DP rumah, Dana darurat"
+          required
+          className="min-h-11"
+        />
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="target_amount">Target nominal</Label>
+        <Label
+          htmlFor="target_amount"
+          className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground"
+        >
+          Target nominal
+        </Label>
         <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">Rp</span>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground font-semibold">
+            Rp
+          </span>
           <Input
             id="target_amount"
             value={amount}
@@ -77,18 +112,28 @@ export function GoalForm({ accounts }: { accounts: Account[] }) {
 
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1.5">
-          <Label htmlFor="target_date">Tanggal target (opsional)</Label>
+          <Label
+            htmlFor="target_date"
+            className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground"
+          >
+            Tanggal target
+          </Label>
           <Input id="target_date" name="target_date" type="date" className="min-h-11" />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="account_id">Rekening (opsional)</Label>
+          <Label
+            htmlFor="account_id"
+            className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground"
+          >
+            Rekening
+          </Label>
           <select
             id="account_id"
             name="account_id"
-            className="w-full rounded-lg border border-input bg-background px-3 min-h-11 text-sm"
+            className="w-full rounded-xl border border-input bg-card px-3 min-h-11 text-sm font-medium focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors"
             defaultValue=""
           >
-            <option value="">— pilih —</option>
+            <option value="">— opsional —</option>
             {accounts.map((a) => (
               <option key={a.id} value={a.id}>
                 {a.icon} {a.name.replace("Rekening ", "")}
@@ -99,16 +144,17 @@ export function GoalForm({ accounts }: { accounts: Account[] }) {
       </div>
 
       <div className="space-y-1.5">
-        <Label>Icon</Label>
-        <div className="flex flex-wrap gap-2">
+        <Label className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Icon</Label>
+        <div className="grid grid-cols-6 gap-1.5">
           {ICON_OPTIONS.map((i) => (
             <button
               key={i}
               type="button"
               onClick={() => setIcon(i)}
-              className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl transition ${
-                icon === i ? "bg-primary/10 ring-2 ring-primary" : "bg-muted hover:bg-muted/70"
-              }`}
+              className={cn(
+                "h-11 rounded-xl flex items-center justify-center text-xl transition-all",
+                icon === i ? "bg-primary/10 ring-2 ring-primary" : "bg-muted hover:bg-accent",
+              )}
             >
               {i}
             </button>
@@ -117,30 +163,26 @@ export function GoalForm({ accounts }: { accounts: Account[] }) {
       </div>
 
       <div className="space-y-1.5">
-        <Label>Warna</Label>
+        <Label className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Warna</Label>
         <div className="flex flex-wrap gap-2">
           {COLOR_OPTIONS.map((c) => (
             <button
               key={c}
               type="button"
               onClick={() => setColor(c)}
-              className={`w-9 h-9 rounded-full transition ${
-                color === c ? "ring-2 ring-offset-2 ring-foreground" : ""
-              }`}
+              className={cn(
+                "w-9 h-9 rounded-full transition-all",
+                color === c ? "ring-2 ring-offset-2 ring-foreground" : "",
+              )}
               style={{ backgroundColor: c }}
-              aria-label={`Pilih warna ${c}`}
+              aria-label={`Warna ${c}`}
             />
           ))}
         </div>
       </div>
 
-      <Button
-        type="submit"
-        disabled={isPending}
-        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 min-h-11"
-        size="lg"
-      >
-        {isPending ? "Membuat…" : "Buat goal"}
+      <Button type="submit" disabled={isPending || !name.trim()} size="lg" className="w-full">
+        {isPending ? "Membuat…" : `Buat goal${name ? ` "${name}"` : ""}`}
       </Button>
     </form>
   );

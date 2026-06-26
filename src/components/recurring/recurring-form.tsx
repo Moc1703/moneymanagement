@@ -56,25 +56,31 @@ export function RecurringForm({
   }
 
   return (
-    <form action={onSubmit} className="rounded-3xl bg-card border border-border shadow-soft p-5 space-y-4">
-      <div className="flex items-center gap-2">
-        <span className="flex items-center justify-center w-9 h-9 rounded-xl gradient-brand text-white">
-          <Repeat className="w-4 h-4" strokeWidth={2.5} />
+    <form action={onSubmit} className="rounded-3xl bg-card border border-border shadow-soft p-5 space-y-5">
+      <div className="flex items-center gap-3">
+        <span
+          className={`flex items-center justify-center w-12 h-12 rounded-2xl text-2xl ring-1 ring-inset ${
+            type === "expense"
+              ? "bg-rose-500/15 text-rose-600 dark:text-rose-300 ring-rose-500/30"
+              : "bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 ring-emerald-500/30"
+          }`}
+        >
+          <Repeat className="w-5 h-5" strokeWidth={2.25} />
         </span>
         <div>
-          <h3 className="text-sm font-semibold">Aturan baru</h3>
-          <p className="text-[11px] text-muted-foreground">Gaji, KPR, langganan — auto-input tiap periode</p>
+          <h3 className="text-base font-extrabold tracking-tight">Aturan baru</h3>
+          <p className="text-[11px] text-muted-foreground">Gaji, KPR, langganan — auto tiap periode</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-1.5">
         <button
           type="button"
           onClick={() => setType("expense")}
-          className={`min-h-11 rounded-xl text-sm font-medium transition-colors ${
+          className={`min-h-12 rounded-xl text-sm font-semibold transition-all ${
             type === "expense"
-              ? "bg-rose-500/15 text-rose-700 dark:text-rose-300 ring-1 ring-rose-500/30"
-              : "bg-muted text-muted-foreground"
+              ? "bg-rose-500 text-white shadow-soft"
+              : "bg-muted text-foreground/80 hover:bg-accent"
           }`}
         >
           Pengeluaran
@@ -82,10 +88,10 @@ export function RecurringForm({
         <button
           type="button"
           onClick={() => setType("income")}
-          className={`min-h-11 rounded-xl text-sm font-medium transition-colors ${
+          className={`min-h-12 rounded-xl text-sm font-semibold transition-all ${
             type === "income"
-              ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 ring-1 ring-emerald-500/30"
-              : "bg-muted text-muted-foreground"
+              ? "bg-emerald-500 text-white shadow-soft"
+              : "bg-muted text-foreground/80 hover:bg-accent"
           }`}
         >
           Pemasukan

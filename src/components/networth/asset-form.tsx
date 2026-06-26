@@ -3,7 +3,6 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -46,27 +45,42 @@ export function AssetForm() {
   }
 
   return (
-    <form action={onSubmit} className="rounded-3xl bg-card border border-border shadow-soft p-5 space-y-4">
-      <div className="flex items-center gap-2">
-        <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-300">
-          <Plus className="w-4 h-4" strokeWidth={2.5} />
+    <form action={onSubmit} className="rounded-3xl bg-card border border-border shadow-soft p-5 space-y-5">
+      <div className="flex items-center gap-3">
+        <span
+          className="flex items-center justify-center w-12 h-12 rounded-2xl text-2xl ring-1 ring-inset"
+          style={{
+            backgroundColor: `${meta.color}1F`,
+            color: meta.color,
+            boxShadow: `inset 0 0 0 1px ${meta.color}33`,
+          }}
+        >
+          {meta.icon}
         </span>
-        <h3 className="text-sm font-semibold">Tambah aset</h3>
+        <div>
+          <h3 className="text-base font-extrabold tracking-tight">Tambah aset</h3>
+          <p className="text-[11px] text-muted-foreground">Investasi, emas, properti, kendaraan</p>
+        </div>
       </div>
 
       <div className="space-y-1.5">
-        <Label>Jenis</Label>
+        <Label className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">Jenis</Label>
         <div className="grid grid-cols-2 gap-1.5">
           {TYPES.map((t) => (
             <button
               key={t.value}
               type="button"
               onClick={() => setType(t.value)}
-              className={`min-h-11 px-3 rounded-xl text-xs font-medium transition-colors flex items-center justify-start gap-2 ${
+              className={`min-h-12 px-3 rounded-xl text-sm font-semibold transition-colors flex items-center justify-start gap-2 ${
                 type === t.value
-                  ? "bg-primary/10 text-primary ring-1 ring-primary/20"
-                  : "bg-muted text-muted-foreground hover:text-foreground"
+                  ? "ring-2 shadow-soft"
+                  : "bg-muted text-muted-foreground hover:bg-accent"
               }`}
+              style={
+                type === t.value
+                  ? { backgroundColor: `${t.color}1A`, color: t.color, ["--tw-ring-color" as string]: t.color }
+                  : undefined
+              }
             >
               <span className="text-base">{t.icon}</span>
               <span className="truncate">{t.label}</span>
@@ -76,14 +90,18 @@ export function AssetForm() {
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="asset-name">Nama</Label>
-        <Input id="asset-name" name="name" placeholder="Bibit Reksa Dana, LM 5gr, dll" required className="min-h-11" />
+        <Label htmlFor="asset-name" className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+          Nama
+        </Label>
+        <Input id="asset-name" name="name" placeholder="cth: Bibit Reksa Dana, LM 5gr" required className="min-h-11" />
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="asset-value">Nilai sekarang</Label>
+        <Label htmlFor="asset-value" className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+          Nilai sekarang
+        </Label>
         <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">Rp</span>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground font-semibold">Rp</span>
           <Input
             id="asset-value"
             value={value}
@@ -100,11 +118,13 @@ export function AssetForm() {
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="asset-note">Catatan</Label>
+        <Label htmlFor="asset-note" className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
+          Catatan
+        </Label>
         <Input id="asset-note" name="note" placeholder="Opsional" className="min-h-11" />
       </div>
 
-      <Button type="submit" disabled={isPending} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 min-h-11">
+      <Button type="submit" disabled={isPending} size="lg" className="w-full">
         {isPending ? "Menyimpan…" : "Tambah aset"}
       </Button>
     </form>
